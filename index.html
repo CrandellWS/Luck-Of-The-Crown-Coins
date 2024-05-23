@@ -43,12 +43,12 @@
             display: grid;
             grid-template-columns: repeat(5, 1fr);
             grid-gap: 20px;
-            width: 500px;
+            width: 900px;
             z-index: 1;
         }
         .box {
-            width: 70px;
-            height: 70px;
+            width: 150px;
+            height: 150px;
             background-color: #ff66b2;
             display: flex;
             justify-content: center;
@@ -59,12 +59,13 @@
             border-radius: 50%;
             position: relative;
             text-shadow: 2px 2px 4px #000;
+            font-size: 48px
         }
         .box::before {
             content: '👑';
-            font-size: 28px;
+            font-size: 48px;
             position: absolute;
-            top: -30px;
+            top: -50px;
         }
         .box.selected {
             background-color: #ff99cc;
@@ -80,7 +81,7 @@
 </head>
 <body>
     <video autoplay muted loop id="background-video">
-        <source src="https://github.com/GambleWitAsh/Luck-Of-The-Crown-Coins/raw/main/CCLogo.Stat.mp4" type="video/mp4">
+        <source src="CCLogo.Stat.mp4" type="video/mp4">
     </video>
     <h1>Luck of the Crowns</h1>
     <div class="header">Gamble With Ash - Brought to you by Crown Coins Casino</div>
@@ -107,6 +108,12 @@
                 box.classList.add('box');
                 box.dataset.prize = shuffledPrizes[i];
                 box.textContent = i + 1;
+
+                const img = document.createElement('img');
+                img.src = 'moon.png'; // Replace with the path to your image
+                img.alt = `Image for prize ${i + 1}`;                
+                box.appendChild(img);
+                
                 box.addEventListener('click', () => {
                     if (!box.classList.contains('selected')) {
                         box.innerHTML = `${box.dataset.prize} S.C`;

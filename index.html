@@ -59,7 +59,11 @@
             border-radius: 50%;
             position: relative;
             text-shadow: 2px 2px 4px #000;
-            font-size: 48px
+            font-size: 36px
+
+            background-image: url('moon.png'); /* Update the path */
+            background-size: cover; /* Ensures the image covers the entire box */
+            background-position: center; /* Centers the image */
         }
         .box::before {
             content: '👑';
@@ -69,6 +73,9 @@
         }
         .box.selected {
             background-color: #ff99cc;
+            background-image: initial;
+            background-size: initial; 
+            background-position: initia; 
         }
         .footer {
             margin-top: 20px;
@@ -108,11 +115,6 @@
                 box.classList.add('box');
                 box.dataset.prize = shuffledPrizes[i];
                 box.textContent = i + 1;
-
-                const img = document.createElement('img');
-                img.src = 'moon.png'; // Replace with the path to your image
-                img.alt = `Image for prize ${i + 1}`;                
-                box.appendChild(img);
                 
                 box.addEventListener('click', () => {
                     if (!box.classList.contains('selected')) {

@@ -143,6 +143,19 @@
 
                 ws.onmessage = function(event) {
                     console.log('Message from server:', event.data);
+                    const message = event.data;
+
+                    // Check if the message is a !pick command
+                    if (message.startsWith('!pick')) {
+                        const parts = message.split(' ');
+                        if (parts.length === 2) {
+                            const boxNumber = parseInt(parts[1], 10);
+                            // Ensure the boxNumber is within the valid range
+                            if (!isNaN(boxNumber) && boxNumber >= 1 && boxNumber <= 20) {
+                                simulateBoxClick(boxNumber);
+                            }
+                        }
+                    }
                 };
 
                 ws.onerror = function(error) {
@@ -163,6 +176,24 @@
 
         // Initially try to connect
         connectWebSocket();
+    </script>
+    <script>
+        function simulatePick(boxNumber) {
+            // Adjusting boxNumber to match array indexing (starting from 0)
+            const boxIndex = boxNumber - 1;
+            const boxes = document.querySelectorAll('.box');
+            if (boxIndex >= 0 && boxIndex < boxes.length) {
+                const box = boxes[boxIndex];
+                if (!box.classList.contains('selected')) {
+                    box.innerHTML = `${box.dataset.prize} S.C`;
+                    box.classList.add('selected');
+                }
+            } else {
+                console.error('Box number out of range');
+            }
+        }
+
+        // Example usage: simulatePick(5) to simulate a click on box number 5
     </script>
 </body>
 </html>

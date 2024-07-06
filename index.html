@@ -90,6 +90,9 @@
     <video autoplay muted loop id="background-video">
         <source src="CCLogo.Stat.mp4" type="video/mp4">
     </video>
+
+    <div id="connection-status">Connecting...</div>
+
     <h1>Luck of the Crowns</h1>
     <div class="header">Gamble With Ash - Brought to you by Crown Coins Casino</div>
     <div class="box-container" id="box-container">
@@ -125,6 +128,41 @@
                 boxContainer.appendChild(box);
             }
         });
+    </script>
+
+    <script>
+        function connectWebSocket() {
+            let ws;
+            try {
+                ws = new WebSocket('ws://localhost:8080');
+
+                ws.onopen = function() {
+                    console.log('Connected to the WebSocket server');
+                    document.getElementById('connection-status').textContent = 'Connected';
+                };
+
+                ws.onmessage = function(event) {
+                    console.log('Message from server:', event.data);
+                };
+
+                ws.onerror = function(error) {
+                    console.log('WebSocket error:', error);
+                };
+
+                ws.onclose = function() {
+                    console.log('WebSocket connection closed');
+                    document.getElementById('connection-status').textContent = 'Disconnected, retrying...';
+                    setTimeout(connectWebSocket, 3000); // Retry after 3 seconds
+                };
+            } catch (error) {
+                console.log('WebSocket connection failed: ', error);
+                document.getElementById('connection-status').textContent = 'Connection failed, retrying...';
+                setTimeout(connectWebSocket, 3000); // Retry after 3 seconds if initial connection fails
+            }
+        }
+
+        // Initially try to connect
+        connectWebSocket();
     </script>
 </body>
 </html>

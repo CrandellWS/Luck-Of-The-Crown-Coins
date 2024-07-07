@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Names Flying Demo</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            color: #fff;
+            text-shadow: 2px 2px 4px #000;
+            height: 100vh;
+            margin: 0;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Existing styles remain unchanged */
+        #clickToContinue {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.75);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2em;
+            color: #FFF;
+            cursor: pointer;
+            z-index: 1000; /* Ensure it's above everything else */
+        }
+
+        #background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        .header {
+            font-size: 2em;
+            color: #ff66b2;
+            text-align: center;
+            text-shadow: 2px 2px 4px #000;
+            margin-bottom: 20px;
+            z-index: 1;
+            top: calc(100% - 2em);
+            position: absolute;
+        }
+        #moon {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            border: 10px solid #61dafb;
+            position: relative;
+            overflow: hidden;
+            background-image: url('moon.png'); /* Update the path */
+            background-size: cover; /* Ensures the image covers the entire box */
+            background-position: center; /* Centers the image */
+            background-color: #ff99cc;
+        }
+        .name {
+            position: absolute;
+            font-size: 42px;
+            opacity: 0;
+            text-shadow: 2px 2px 4px #000;
+        }
+        .top-left {
+            animation: flyToCenter 5s linear forwards;
+        }
+        .right-bottom {
+            animation: flyToCenterAdjusted 5s linear forwards;
+        }
+        @keyframes flyToCenter {
+            0% {
+                opacity: 1;
+                transform: scale(2.5) translate(var(--start-x), var(--start-y));
+                color: white;
+            }
+            70% {
+                transform: scale(1) translate(calc(var(--start-x) / 3.5), calc(var(--start-y) / 3.5));
+                color: grey;
+            }
+            85% {
+                transform: scale(0.85) translate(calc(var(--start-x) / 4.5), calc(var(--start-y) / 4.5));
+                color: red;
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.5) translate(calc(var(--start-x) / 5), calc(var(--start-y) / 5));
+                color: red;
+            }
+        }
+        @keyframes flyToCenterAdjusted {
+            0% {
+                opacity: 1;
+                transform: scale(2.5) translate(var(--start-x), var(--start-y));
+                color: white;
+            }
+            70% {
+                transform: scale(1) translate(calc(var(--start-x) / 3), calc(var(--start-y) / 3));
+                color: grey;
+            }
+            85% {
+                transform: scale(0.85) translate(calc(var(--start-x) / 4), calc(var(--start-y) / 4));
+                color: red;
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.5) translate(calc(var(--start-x) / 5), calc(var(--start-y) / 5));
+                color: red;
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        @keyframes grow {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(2.5);
+            }
+        }
+
+        #winnerAnnouncement {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(2.5);
+            font-size: 1em;
+            color: #FFDD57; /* Vibrant yellow */
+            text-shadow: 2px 2px 4px #000;
+            text-align: center;
+            animation: fadeIn 2s;
+        }
+        #winnerAnnouncement .announcement-text {
+            display: block;
+            font-size: 0.5em; /* Smaller than the winner's name */
+        }
+        #winnerAnnouncement .winner-name {
+            display: block;
+            font-size: 1em; /* Dynamically adjust based on content length */
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .fadeOut {
+            animation: fadeOutAnimation 2s forwards;
+        }
+
+        @keyframes fadeOutAnimation {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="clickToContinue">Click to Continue</div>
+<video autoplay muted loop id="background-video">
+    <source src="CCLogo.Stat.mp4" type="video/mp4">
+</video>
+
+<h1>Luck of the Crowns</h1>
+<div class="header">Gamble With Ash - Brought to you by Crown Coins Casino</div>
+<div id="moon"></div>
+
+<script>
+    function initializeApp() {
+        const names = [
+            "Alice", "Bob", "Charlie", "Dave", "Eve", "Frank", "Grace", "Hank", "Ivy", "Jack",
+            "Kara", "Liam", "Mia", "Noah", "Olivia", "Paul", "Quinn", "Rose", "Sam", "Tina",
+            "Uma", "Vince", "Wendy", "Xander", "Yara", "Zane", "Amy", "Brian", "Catherine", "Derek",
+            "Emma", "Felix", "Gina", "Harry", "Isla", "Jason", "Kim", "Leo", "Megan", "Nathan",
+            "Olga", "Peter", "Quincy", "Rachel", "Steve", "Tara", "Ursula", "Victor", "Will", "Xena",
+            "Yvonne", "Zach", "Amber", "Brandon", "Caitlin", "Dan", "Elena", "Finn", "Gabby", "Howard",
+            "Isabella", "Justin", "Kelsey", "Lara", "Marcus", "Nina", "Oscar", "Penny", "Quinn", "Riley",
+            "Sean", "Tiffany", "Ulrich", "Vanessa", "Warren", "Xavier", "Yasmine", "Zara", "Aiden", "Brooke",
+            "Cody", "Dana", "Eli", "Fiona", "Gavin", "Holly", "Ian", "Jamie", "Kara", "Logan",
+            "Maya", "Nate", "Olive", "Patrick", "Quentin", "Rosa", "Seth", "Tracy", "Uri", "Vivian",
+            "Wes", "Ximena", "Yusuf", "Zoey", "Alex", "Ben", "Cara", "Dylan", "Ellie", "Freddy",
+            "Gemma", "Hayden", "Irene", "Jake", "Kaitlyn", "Landon", "Maddie", "Nick", "Opal", "Parker",
+            "Quinn", "Rob", "Sophie", "Tyler", "Ula", "Vinny", "Whitney", "Xander", "Yara", "Zack",
+            "Abby", "Blake", "Chelsea", "Doug", "Eva", "Flynn", "George", "Hannah", "Isaac", "Jill",
+            "Kyle", "Lily", "Max", "Nora", "Owen", "Paula", "Quincy", "Reese", "Scott", "Tina",
+            "Ursula", "Vince", "Willow", "Xena", "Yasmin", "Zane", "Anna", "Brett", "Chloe", "Dean",
+            "Elsa", "Frankie", "Glenn", "Heather", "Ivan", "Jess", "Kira", "Lucas", "Mia", "Noel",
+            "Orion", "Pam", "Quinn", "Rob", "Sage", "Tom", "Uma", "Vera", "Wade", "Xander",
+            "Yvette", "Zack", "Ava", "Brady", "Cassie", "Dexter", "Erica", "Frances", "Grant", "Hazel",
+            "Isaiah", "Jen", "Kurt", "Liza", "Miles", "Nadia", "Otto", "Paige", "Quinn", "Rex",
+            "Sarah", "Theo", "Una", "Victor", "Wyatt", "Xanthe", "Yuri", "Zoey", "Aaron", "Britney"
+        ];
+
+        const moon = document.getElementById('moon');
+        const moonRect = moon.getBoundingClientRect();
+        const moonCenter = {x: moonRect.left + moonRect.width / 2, y: moonRect.top + moonRect.height / 2};
+        const moonRadius = moonRect.width / 2; // Assuming the moon is a perfect circle
+        const totalDuration = 10000; // 10 seconds in milliseconds
+        const nameDisplayDuration = 5000; // Each name will be displayed for 5 seconds
+        const interval = totalDuration / names.length; // Interval between each name appearance
+
+        let displayedNames = [];
+        let winner = "";
+
+        names.forEach((name, index) => {
+            setTimeout(() => {
+                const nameElement = document.createElement('div');
+                nameElement.className = 'name';
+                nameElement.textContent = name;
+
+                // Calculate starting position and trajectory
+                const startPos = calculateStartPosition(moonCenter, moonRadius);
+                nameElement.style.setProperty('--start-x', `${startPos.x}px`);
+                nameElement.style.setProperty('--start-y', `${startPos.y}px`);
+
+                // Add class for adjusted animation if from right or bottom
+                if (startPos.x > window.innerWidth / 2 || startPos.y > window.innerHeight / 2) {
+                    nameElement.classList.add('right-bottom');
+                } else {
+                    nameElement.classList.add('top-left');
+                }
+
+                document.body.appendChild(nameElement);
+
+                setTimeout(() => {
+                    nameElement.remove();
+                }, nameDisplayDuration);
+
+                displayedNames.push(name);
+
+                // Start the pulsating effect and pick a winner in the last few seconds
+                if (index === names.length - 1) {
+                    setTimeout(() => {
+                        moon.style.animation = 'pulse 0.5s infinite';
+                        pickWinner();
+                    }, (index * interval) / 2);
+                }
+            }, index * interval);
+        });
+
+        function pickWinner() {
+            setTimeout(() => {
+                moon.style.animation = 'grow 0.5s forwards';
+            }, 2900);
+
+            const drumRollAudio = new Audio('audio/drum-roll.mp3');
+            const crowdCheersAudio = new Audio('audio/crowd-cheer.wav');
+
+            // Play the drum roll audio
+            drumRollAudio.play();
+
+            const winnerIndex = Math.floor(Math.random() * displayedNames.length);
+            winner = displayedNames[winnerIndex];
+
+            // Set a timeout to wait for the drum roll to nearly finish before announcing the winner
+            setTimeout(() => {
+                // Remove the moon's background image
+                moon.style.backgroundImage = 'none';
+
+                // Create and display the winner announcement
+                const winnerAnnouncement = document.createElement('div');
+                winnerAnnouncement.textContent = `The winner is:`;
+                winnerAnnouncement.style.cssText = `
+                position: absolute;
+                top: calc(50% - 3em);
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 4em;
+                color: #FFDD57; /* Vibrant yellow */
+                text-shadow: 2px 2px 4px #000;
+                animation: fadeIn 2s;
+            `;
+
+                const winnerPick = document.createElement('div');
+                winnerPick.textContent = `${winner}!`;
+                winnerPick.style.cssText = `
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 10em;
+                color: #FFDD57; /* Vibrant yellow */
+                text-shadow: 2px 2px 4px #000;
+                animation: fadeIn 2s;
+            `;
+
+                document.body.appendChild(winnerPick);
+                document.body.appendChild(winnerAnnouncement);
+
+                // Play the crowd cheers audio
+                crowdCheersAudio.play();
+            }, 4750); // Adjust this timing based on the exact overlap you want with the drum roll
+        }
+
+        function calculateStartPosition(moonCenter, moonRadius) {
+            // Determine viewport dimensions
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+
+            let x, y;
+            const side = Math.floor(Math.random() * 4); // 0: top, 1: right, 2: bottom, 3: left
+
+            switch (side) {
+                case 0: // Top
+                    x = Math.random() * -(viewportWidth / 2);
+                    y = -moonRadius * 3; // Start above the viewport
+                    break;
+
+                case 1:
+                    x = moonRadius * 2; // Start closer to the right edge
+                    y = Math.random() * (viewportHeight / 2);
+                    break;
+                case 2:
+                    x = Math.random() * (viewportWidth / 2);
+                    y = -moonRadius * 2; // Start closer to the bottom edge
+                    break;
+                case 3: // Left
+                    x = -moonRadius * 3; // Start to the left of the viewport
+                    y = Math.random() * (viewportHeight / 2);
+                    break;
+            }
+
+            return { x, y };
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('clickToContinue').addEventListener('click', function() {
+            this.style.display = 'none'; // Hide the overlay
+            initializeApp(); // Initialize the app after user interaction
+        });
+    });
+
+</script>
+</body>
+</html>

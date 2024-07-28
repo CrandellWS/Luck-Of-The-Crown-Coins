@@ -243,6 +243,7 @@
 
 
     const shuffleArray = (array) => {
+        // console.log(array);
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [array[i], array[j]] = [array[j], array[i]]; // Swap elements
@@ -313,75 +314,106 @@
         }, 4750); // Adjust this timing based on the exact overlap you want with the drum roll
     }
 
-    function initializeApp() {
+    let nameCounters = new Map();
+    let names = [];
+    let displayInterval;
 
+    // function initializeApp(messageNames) {
+    //     updateNames(messageNames);
+    // }
+
+
+    function updateNames(newNames) {
+        console.log("updateNames");
+        names = newNames; // Update the names array with the new names
         shuffleArray(names); // Shuffle the names array
+
+        // Initialize or reset counters
+        names.forEach(name => {
+            if (!nameCounters.has(name)) {
+                nameCounters.set(name, 0);
+            }
+        });
+
+        // Restart the display loop with the updated names
+        startDisplayLoop();
+    }
+
+
+    function startDisplayLoop() {
+        // Clear any existing interval
+        if (displayInterval) {
+            clearInterval(displayInterval);
+        }
 
         const moon = document.getElementById('moon');
         const moonRect = moon.getBoundingClientRect();
-        const moonCenter = {x: moonRect.left + moonRect.width / 2, y: moonRect.top + moonRect.height / 2};
+        const moonCenter = { x: moonRect.left + moonRect.width / 2, y: moonRect.top + moonRect.height / 2 };
         const moonRadius = moonRect.width / 2; // Assuming the moon is a perfect circle
-        const totalDuration = 5000; // 5 seconds in milliseconds
-        const nameDisplayDuration = 6000; // Each name will be displayed for 3 seconds
-        const interval = totalDuration / names.length; // Interval between each name appearance
+        const nameDisplayDuration = 5000; // Each name will be displayed for 3 seconds
+        const intervalBetweenNames = 1000; // Interval between each name appearance (1 second)
 
-        names.forEach((name, index) => {
-            setTimeout(() => {
-                const nameElement = document.createElement('div');
-                nameElement.className = 'name';
-                nameElement.textContent = name;
+        // Start displaying names at intervals
+        let currentIndex = 0;
+        displayInterval = setInterval(() => {
+            const name = names[currentIndex];
+            const nameElement = document.createElement('div');
+            nameElement.className = 'name';
+            nameElement.textContent = name;
 
-                // Calculate starting position and trajectory
-                const startPos = calculateStartPosition(moonCenter, moonRadius);
-                nameElement.style.setProperty('--start-x', `${startPos.x}px`);
-                nameElement.style.setProperty('--start-y', `${startPos.y}px`);
+            // Calculate starting position and trajectory
+            const startPos = calculateStartPosition(moonCenter, moonRadius);
+            nameElement.style.setProperty('--start-x', `${startPos.x}px`);
+            nameElement.style.setProperty('--start-y', `${startPos.y}px`);
 
-                // Add class for adjusted animation if from right or bottom
-                if (startPos.x > window.innerWidth / 2 || startPos.y > window.innerHeight / 2) {
-                    nameElement.classList.add('right-bottom');
-                } else {
-                    nameElement.classList.add('top-left');
-                }
-
-                document.body.appendChild(nameElement);
-
-                setTimeout(() => {
-                    nameElement.remove();
-                }, nameDisplayDuration);
-
-            }, index * interval);
-        });
-
-        function calculateStartPosition(moonCenter, moonRadius) {
-            // Determine viewport dimensions
-            const viewportWidth = window.innerWidth;
-            const viewportHeight = window.innerHeight;
-
-            let x, y;
-            const side = Math.floor(Math.random() * 4); // 0: top, 1: right, 2: bottom, 3: left
-
-            switch (side) {
-                case 0: // Top
-                    x = Math.random() * -(viewportWidth / 2);
-                    y = -moonRadius * 3; // Start above the viewport
-                    break;
-
-                case 1:
-                    x = moonRadius * 2; // Start closer to the right edge
-                    y = Math.random() * (viewportHeight / 2);
-                    break;
-                case 2:
-                    x = Math.random() * (viewportWidth / 2);
-                    y = -moonRadius * 2; // Start closer to the bottom edge
-                    break;
-                case 3: // Left
-                    x = -moonRadius * 3; // Start to the left of the viewport
-                    y = Math.random() * (viewportHeight / 2);
-                    break;
+            // Add class for adjusted animation if from right or bottom
+            if (startPos.x > window.innerWidth / 2 || startPos.y > window.innerHeight / 2) {
+                nameElement.classList.add('right-bottom');
+            } else {
+                nameElement.classList.add('top-left');
             }
 
-            return { x, y };
+            document.body.appendChild(nameElement);
+
+            // Remove the name element after the display duration
+            setTimeout(() => {
+                nameElement.remove();
+            }, nameDisplayDuration);
+
+            // Update the current index and loop back if necessary
+            currentIndex = (currentIndex + 1) % names.length;
+        }, intervalBetweenNames);
+    }
+
+    function calculateStartPosition(moonCenter, moonRadius) {
+        // Determine viewport dimensions
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+
+        let x, y;
+        const side = Math.floor(Math.random() * 4); // 0: top, 1: right, 2: bottom, 3: left
+
+        switch (side) {
+            case 0: // Top
+                x = Math.random() * -(viewportWidth / 2);
+                y = -moonRadius * 3; // Start above the viewport
+                break;
+
+            case 1:
+                x = moonRadius * 2; // Start closer to the right edge
+                y = Math.random() * (viewportHeight / 2);
+                break;
+            case 2:
+                x = Math.random() * (viewportWidth / 2);
+                y = -moonRadius * 2; // Start closer to the bottom edge
+                break;
+            case 3: // Left
+                x = -moonRadius * 3; // Start to the left of the viewport
+                y = Math.random() * (viewportHeight / 2);
+                break;
         }
+
+        return { x, y };
     }
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -422,8 +454,7 @@
                     messageJson = JSON.parse(event.data);
                     // Proceed with handling the parsed JSON
                     if (messageJson.command === 'sendNames') {
-                        names = messageJson.data; // Update the names array with the new names
-                        initializeApp(); // Call initializeApp to start the animation with the new names
+                        updateNames(messageJson.data); // Call initializeApp to start the animation with the new names
                     }
                 } catch (error) {
                     console.error('Error parsing message data:', error);
@@ -448,7 +479,7 @@
         }
     }
 
-    let names = [
+    let names_sample = [
         "Alice", "Bob", "Charlie", "Dave", "Eve", "Frank", "Grace", "Hank", "Ivy", "Jack",
         "Kara", "Liam", "Mia", "Noah", "Olivia", "Paul", "Quinn", "Rose", "Sam", "Tina",
         "Uma", "Vince", "Wendy", "Xander", "Yara", "Zane", "Amy", "Brian", "Catherine", "Derek",

@@ -186,6 +186,9 @@
 <div class="header">Gamble With Ash - Brought to you by Crown Coins Casino</div>
 <div id="moon"></div>
 
+<!-- Add this inside the body tag -->
+<button id="pickWinnersButton" style="display: none;">Pick Winners</button>
+<button id="resetGameButton" style="display: none;">Reset Game</button>
 <script>
 
     function displayWinners(winners) {
@@ -221,6 +224,24 @@
             // }, baseDelay * (index + 1)); // Increase delay for each winner
             }, baseDelay); // Increase delay for each winner
         });
+    }
+
+    function startGame() {
+        const startCommand = JSON.stringify({ command: "startGame" });
+        ws.send(startCommand);
+        console.log('Game start command sent to server');
+        document.getElementById('pickWinnersButton').style.display = 'block'; // Show the Pick Winners button
+    }
+
+    // Step 2: Define a function to send a command to start the game
+    function endGame() {
+        const stopCommand = JSON.stringify({ command: "stopGame" });
+        ws.send(stopCommand);
+        console.log('Game stop command sent to server');
+        document.getElementById('pickWinnersButton').style.display = 'none';
+        document.getElementById('resetGameButton').style.display = 'none';
+        clearInterval(displayInterval);
+        AndTheWinnersAre();
     }
 
     function AndTheWinnersAre() {
@@ -422,15 +443,31 @@
             //send websocket message to server to start the game
             startGame();
         });
+
+        document.getElementById('pickWinnersButton').addEventListener('click', function() {
+            endGame();
+        });
+        document.getElementById('resetGameButton').addEventListener('click', function() {
+            this.style.display = 'none'; // Hide the overlay
+            document.getElementById('clickToContinue').style.display = 'block';
+            resetGame();
+        });
     });
 
-    // Step 2: Define a function to send a command to start the game
-    function startGame() {
-        const startCommand = JSON.stringify({ command: "startGame" });
-        ws.send(startCommand);
-        console.log('Game start command sent to server');
-    }
+    function resetGame() {
+        // Reset game-related variables or states
+        names = [];
+        nameCounters.clear();
+        clearInterval(displayInterval);
 
+        // Hide the Pick Winners button
+        document.getElementById('pickWinnersButton').style.display = 'none';
+
+        // Optionally, send a reset command to the server
+        const resetCommand = JSON.stringify({ command: "resetGame" });
+        ws.send(resetCommand);
+        console.log('Game reset command sent to server');
+    }
 </script>
 
 

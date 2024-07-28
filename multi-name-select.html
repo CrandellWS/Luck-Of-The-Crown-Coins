@@ -239,7 +239,7 @@
         ws.send(stopCommand);
         console.log('Game stop command sent to server');
         document.getElementById('pickWinnersButton').style.display = 'none';
-        document.getElementById('resetGameButton').style.display = 'none';
+        document.getElementById('resetGameButton').style.display = 'block';
         clearInterval(displayInterval);
         AndTheWinnersAre();
     }

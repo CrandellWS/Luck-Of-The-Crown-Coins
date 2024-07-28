@@ -305,7 +305,7 @@
             winnerAnnouncement.textContent = `The winner is:`;
             winnerAnnouncement.style.cssText = `
                 position: absolute;
-                top: calc(50% - 3em);
+                top: calc(50% - 4em);
                 left: 50%;
                 transform: translate(-50%, -50%);
                 font-size: 3em;
@@ -318,13 +318,14 @@
             winnerPick.textContent = `${winner}!`;
             winnerPick.style.cssText = `
                 position: absolute;
-                top: 50%;
+                top: 60%;
                 left: 50%;
                 transform: translate(-50%, -50%);
-                font-size: 10em;
+                font-size: 8em;
                 color: #FFDD57; /* Vibrant yellow */
                 text-shadow: 2px 2px 4px #000;
                 animation: fadeIn 2s;
+                text-align: center;
             `;
 
             document.body.appendChild(winnerPick);

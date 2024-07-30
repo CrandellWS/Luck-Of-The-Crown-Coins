@@ -202,6 +202,7 @@
 <button id="resetGameButton" style="display: none;">Reset Game</button>
 <script>
 
+    winnerElements = [];
     function displayWinners(winners) {
         console.log('Displaying winners:', winners);
         const positions = [
@@ -313,6 +314,7 @@
 
             // Create and display the winner announcement
             const winnerAnnouncement = document.createElement('div');
+            winnerAnnouncement.className = 'winner-name';
             winnerAnnouncement.textContent = `The winner is:`;
             winnerAnnouncement.style.cssText = `
                 position: absolute;
@@ -474,6 +476,12 @@
 
         // Hide the Pick Winners button
         document.getElementById('pickWinnersButton').style.display = 'none';
+
+        // Remove all elements with the class name 'winner-name'
+        const winnerElements = document.getElementsByClassName('winner-name');
+        while (winnerElements.length > 0) {
+            winnerElements[0].parentNode.removeChild(winnerElements[0]);
+        }
 
         // Optionally, send a reset command to the server
         const resetCommand = JSON.stringify({ command: "resetGame" });

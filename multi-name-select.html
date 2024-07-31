@@ -77,6 +77,10 @@
         .right-bottom {
             animation: flyToCenterAdjusted 5s linear forwards;
         }
+        :root {
+            --start-x: 0px;
+            --start-y: 0px;
+        }
         @keyframes flyToCenter {
             0% {
                 opacity: 1;
@@ -183,6 +187,46 @@
             position: absolute;
             right: calc(100% - 150px);
         }
+        #showWinnersButton {
+            top: 0;
+            position: absolute;
+            z-index: 1000;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .modal-content {
+            background-color: #ff66b2;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -200,9 +244,52 @@
 <!-- Add this inside the body tag -->
 <button id="pickWinnersButton" style="display: none;">Pick Winners</button>
 <button id="resetGameButton" style="display: none;">Reset Game</button>
-<script>
+<!-- Add this button to open the modal -->
+<button id="showWinnersButton">Show Previous Winners</button>
+<!-- Add this inside the body tag -->
+<div id="winnersModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Previous Winners</h2>
+        <ul id="winnersList"></ul>
+        <input type="text" id="newWinnerInput" placeholder="Enter winner name">
+        <button id="addWinnerButton">Add Winner</button>
+        <button id="clearWinnersButton">Clear Winners</button>
+    </div>
+</div>
 
-    winnerElements = [];
+<script>
+    let isEndingGame = false;
+    let nameCounters = new Map();
+    let winnersSet = new Set();
+
+    let names_sample = [
+        "Alice", "Bob", "Charlie", "Dave", "Eve", "Frank", "Grace", "Hank", "Ivy", "Jack",
+        "Kara", "Liam", "Mia", "Noah", "Olivia", "Paul", "Quinn", "Rose", "Sam", "Tina",
+        "Uma", "Vince", "Wendy", "Xander", "Yara", "Zane", "Amy", "Brian", "Catherine", "Derek",
+        "Emma", "Felix", "Gina", "Harry", "Isla", "Jason", "Kim", "Leo", "Megan", "Nathan",
+        "Olga", "Peter", "Quincy", "Rachel", "Steve", "Tara", "Ursula", "Victor", "Will", "Xena",
+        "Yvonne", "Zach", "Amber", "Brandon", "Caitlin", "Dan", "Elena", "Finn", "Gabby", "Howard",
+        "Isabella", "Justin", "Kelsey", "Lara", "Marcus", "Nina", "Oscar", "Penny", "Quinn", "Riley",
+        "Sean", "Tiffany", "Ulrich", "Vanessa", "Warren", "Xavier", "Yasmine", "Zara", "Aiden", "Brooke",
+        "Cody", "Dana", "Eli", "Fiona", "Gavin", "Holly", "Ian", "Jamie", "Kara", "Logan",
+        "Maya", "Nate", "Olive", "Patrick", "Quentin", "Rosa", "Seth", "Tracy", "Uri", "Vivian",
+        "Wes", "Ximena", "Yusuf", "Zoey", "Alex", "Ben", "Cara", "Dylan", "Ellie", "Freddy",
+        "Gemma", "Hayden", "Irene", "Jake", "Kaitlyn", "Landon", "Maddie", "Nick", "Opal", "Parker",
+        "Quinn", "Rob", "Sophie", "Tyler", "Ula", "Vinny", "Whitney", "Xander", "Yara", "Zack",
+        "Abby", "Blake", "Chelsea", "Doug", "Eva", "Flynn", "George", "Hannah", "Isaac", "Jill",
+        "Kyle", "Lily", "Max", "Nora", "Owen", "Paula", "Quincy", "Reese", "Scott", "Tina",
+        "Ursula", "Vince", "Willow", "Xena", "Yasmin", "Zane", "Anna", "Brett", "Chloe", "Dean",
+        "Elsa", "Frankie", "Glenn", "Heather", "Ivan", "Jess", "Kira", "Lucas", "Mia", "Noel",
+        "Orion", "Pam", "Quinn", "Rob", "Sage", "Tom", "Uma", "Vera", "Wade", "Xander",
+        "Yvette", "Zack", "Ava", "Brady", "Cassie", "Dexter", "Erica", "Frances", "Grant", "Hazel",
+        "Isaiah", "Jen", "Kurt", "Liza", "Miles", "Nadia", "Otto", "Paige", "Quinn", "Rex",
+        "Sarah", "Theo", "Una", "Victor", "Wyatt", "Xanthe", "Yuri", "Zoey", "Aaron", "Britney"
+    ];
+    let names = names_sample;
+    // let names = [];
+    let displayInterval;
+
     function displayWinners(winners) {
         console.log('Displaying winners:', winners);
         const positions = [
@@ -211,6 +298,7 @@
             { bottom: '10%', left: '10%' }, // Bottom left
             { bottom: '10%', right: '10%' } // Bottom right
         ];
+        const baseDelay = 1000; // Base delay of 1 second
 
         winners.forEach((winner, index) => {
             const winnerElement = document.createElement('div');
@@ -227,33 +315,44 @@
                 ...positions[index]
             });
 
-            const baseDelay = 1000; // Base delay of 1 second
-
             // Delay each winner's appearance
             setTimeout(() => {
                 console.log('Displaying winner:', winner);
                 document.body.appendChild(winnerElement);
             // }, baseDelay * (index + 1)); // Increase delay for each winner
-            }, baseDelay); // Increase delay for each winner
+            }, baseDelay);
         });
+
+        // Delay each winner's appearance
+        setTimeout(() => {
+            document.getElementById('resetGameButton').style.display = 'block';
+        }, baseDelay * winners.length);
     }
 
     function startGame() {
-        const startCommand = JSON.stringify({ command: "startGame" });
-        ws.send(startCommand);
-        console.log('Game start command sent to server');
         document.getElementById('pickWinnersButton').style.display = 'block'; // Show the Pick Winners button
+        try {
+            // Optionally, send a start command to the server
+            const startCommand = JSON.stringify({ command: "startGame" });
+            ws.send(startCommand);
+            console.log('Game start command sent to server');
+        } catch (error) {
+            console.log('Error starting game:', error);
+        }
     }
 
-    // Step 2: Define a function to send a command to start the game
     function endGame() {
-        const stopCommand = JSON.stringify({ command: "stopGame" });
-        ws.send(stopCommand);
-        console.log('Game stop command sent to server');
         document.getElementById('pickWinnersButton').style.display = 'none';
-        document.getElementById('resetGameButton').style.display = 'block';
-        clearInterval(displayInterval);
-        AndTheWinnersAre();
+        try {
+            // Optionally, send a stop command to the server
+            const stopCommand = JSON.stringify({command: "stopGame"});
+            ws.send(stopCommand);
+            console.log('Game stop command sent to server');
+        }
+        catch (error) {
+            console.log('Error stopping game:', error);
+            isEndingGame = true; // Set the flag to indicate the game is ending
+        }
     }
 
     function AndTheWinnersAre() {
@@ -261,7 +360,12 @@
 
         const numberOfWinners = Math.min(5, names.length);
 
-        const winners = names.slice(0, numberOfWinners); // Select the first N names as winners after shuffle
+        const filteredNames = names.filter(name => !winnersSet.has(name));
+        const winners = filteredNames.slice(0, numberOfWinners); // Select the first N names as winners after shuffle
+
+        winners.forEach(hasWon => {
+            winnersSet.add(hasWon);
+        });
 
         winner = winners[0];
 
@@ -274,18 +378,12 @@
         pickWinner(winner);
     }
 
-
-    const shuffleArray = (array) => {
-        // console.log(array);
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]]; // Swap elements
-        }
-    };
-
-
     function pickWinner(winner) {
 
+
+        const drumRollAudio = new Audio('audio/drum-roll.mp3');
+        const crowdCheersAudio = new Audio('audio/crowd-cheer.wav');
+        const moon = document.getElementById('moon');
 
         // // Start the pulsating effect and pick a winner in the last few seconds
         // if (index === names.length - 1) {
@@ -298,13 +396,8 @@
             moon.style.animation = 'grow 0.5s forwards';
         }, 2900);
 
-        const drumRollAudio = new Audio('audio/drum-roll.mp3');
-        const crowdCheersAudio = new Audio('audio/crowd-cheer.wav');
-
         // Play the drum roll audio
         drumRollAudio.play();
-
-        const moon = document.getElementById('moon');
 
         // Set a timeout to wait for the drum roll to nearly finish before announcing the winner
         setTimeout(() => {
@@ -350,14 +443,6 @@
         }, 4750); // Adjust this timing based on the exact overlap you want with the drum roll
     }
 
-    let nameCounters = new Map();
-    let names = [];
-    let displayInterval;
-
-    // function initializeApp(messageNames) {
-    //     updateNames(messageNames);
-    // }
-
 
     function updateNames(newNames) {
         console.log("updateNames");
@@ -368,6 +453,7 @@
         names.forEach(name => {
             if (!nameCounters.has(name)) {
                 nameCounters.set(name, 0);
+
             }
         });
 
@@ -386,13 +472,35 @@
         const moonRect = moon.getBoundingClientRect();
         const moonCenter = { x: moonRect.left + moonRect.width / 2, y: moonRect.top + moonRect.height / 2 };
         const moonRadius = moonRect.width / 2; // Assuming the moon is a perfect circle
-        const nameDisplayDuration = 5000; // Each name will be displayed for 3 seconds
-        const intervalBetweenNames = 1000; // Interval between each name appearance (1 second)
+        const nameDisplayDuration = 5000; // Each name will be displayed for 5 seconds
+        let intervalBetweenNamesMin = 100; // Interval between each name appearance (0.1 second)
+        let intervalBetweenNamesMax = 1000; // Interval between each name appearance (1 second)
+
+        // Shuffle the names array to maintain randomness
+        shuffleArray(names);
+
+        // Sort names by the number of times they have been displayed
+        names.sort((a, b) => nameCounters.get(a) - nameCounters.get(b));
 
         // Start displaying names at intervals
         let currentIndex = 0;
         displayInterval = setInterval(() => {
             const name = names[currentIndex];
+            nameCounters.set(name, (nameCounters.get(name) || 0) + 1);
+
+            let nameCount = nameCounters.get(name);
+
+            if (isEndingGame && nameCount > 1) {
+                AndTheWinnersAre();
+                isEndingGame = false; // Reset the flag
+                clearInterval(displayInterval); // Stop the display loop
+                return;
+            } else
+                if (isEndingGame) {
+                    intervalBetweenNamesMin = 10; // Reduce the interval for the last few names
+                    intervalBetweenNamesMax = 100; // Reduce the interval for the last few names
+                }
+
             const nameElement = document.createElement('div');
             nameElement.className = 'name';
             nameElement.textContent = name;
@@ -418,9 +526,12 @@
 
             // Update the current index and loop back if necessary
             currentIndex = (currentIndex + 1) % names.length;
-        }, intervalBetweenNames);
+        }, getRandomInterval(intervalBetweenNamesMin, intervalBetweenNamesMax));
     }
 
+    function getRandomInterval(min, max) {
+        return Math.random() * (max - min) + min;
+    }
     function calculateStartPosition(moonCenter, moonRadius) {
         // Determine viewport dimensions
         const viewportWidth = window.innerWidth;
@@ -464,12 +575,15 @@
         });
         document.getElementById('resetGameButton').addEventListener('click', function() {
             this.style.display = 'none'; // Hide the overlay
-            document.getElementById('clickToContinue').style.display = 'block';
             resetGame();
         });
     });
 
     function resetGame() {
+
+        document.getElementById('clickToContinue').style.display = 'flex';
+        const moon = document.getElementById('moon');
+        const winnerElements = document.getElementsByClassName('winner-name');
         // Reset game-related variables or states
         names = [];
         nameCounters.clear();
@@ -479,20 +593,95 @@
         document.getElementById('pickWinnersButton').style.display = 'none';
 
         // Remove all elements with the class name 'winner-name'
-        const winnerElements = document.getElementsByClassName('winner-name');
         while (winnerElements.length > 0) {
             winnerElements[0].parentNode.removeChild(winnerElements[0]);
         }
-
-        // Optionally, send a reset command to the server
-        const resetCommand = JSON.stringify({ command: "resetGame" });
-        ws.send(resetCommand);
-        console.log('Game reset command sent to server');
+        moon.style.animation = 'none'; // Reset the moon's animation
+        moon.style.backgroundImage = 'url("moon.png")'; // Reset the moon's background image
+        try {
+                // Optionally, send a reset command to the server
+                const resetCommand = JSON.stringify({ command: "resetGame" });
+                ws.send(resetCommand);
+                console.log('Game reset command sent to server');
+        } catch (error) {
+            console.log('Error resetting game:', error);
+        }
     }
-</script>
+
+    // Function to shuffle an array in place
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    // Add this to your existing JavaScript
+    document.addEventListener('DOMContentLoaded', () => {
+        const modal = document.getElementById('winnersModal');
+        const winnersList = document.getElementById('winnersList');
+        const newWinnerInput = document.getElementById('newWinnerInput');
+        const addWinnerButton = document.getElementById('addWinnerButton');
+        const clearWinnersButton = document.getElementById('clearWinnersButton');
+        const closeModal = document.getElementsByClassName('close')[0];
+
+        // Function to open the modal
+        function openModal() {
+            modal.style.display = 'block';
+            updateWinnersList();
+        }
+
+        // Function to close the modal
+        closeModal.onclick = function() {
+            modal.style.display = 'none';
+        }
+
+        // Function to update the winners list in the modal
+        function updateWinnersList() {
+            winnersList.innerHTML = '';
+            winnersSet.forEach(winner => {
+                const li = document.createElement('li');
+                li.textContent = winner;
+                const removeButton = document.createElement('button');
+                removeButton.textContent = 'Remove';
+                removeButton.onclick = () => {
+                    winnersSet.delete(winner);
+                    updateWinnersList();
+                };
+                li.appendChild(removeButton);
+                winnersList.appendChild(li);
+            });
+        }
+
+        // Add winner to the list
+        addWinnerButton.onclick = function() {
+            const newWinner = newWinnerInput.value.trim();
+            if (newWinner) {
+                winnersSet.add(newWinner);
+                newWinnerInput.value = '';
+                updateWinnersList();
+            }
+        }
+
+        // Clear all winners
+        clearWinnersButton.onclick = function() {
+            winnersSet.clear();
+            updateWinnersList();
+        }
+
+        // Open the modal when needed
+        document.getElementById('showWinnersButton').onclick = openModal;
+
+        // Close the modal when clicking outside of it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+    });
 
 
-<script>
+
     let ws;
     function connectWebSocket() {
         try {
@@ -514,6 +703,11 @@
                     if (messageJson.command === 'sendNames') {
                         updateNames(messageJson.data); // Call initializeApp to start the animation with the new names
                     }
+
+                    if (messageJson.command === 'stopGameAck') {
+                        isEndingGame = true; // Set the flag to indicate the game is ending
+                    }
+
                 } catch (error) {
                     console.error('Error parsing message data:', error);
                     // Handle non-JSON messages or log the error
@@ -536,30 +730,6 @@
             setTimeout(connectWebSocket, 3000); // Retry after 3 seconds if initial connection fails
         }
     }
-
-    let names_sample = [
-        "Alice", "Bob", "Charlie", "Dave", "Eve", "Frank", "Grace", "Hank", "Ivy", "Jack",
-        "Kara", "Liam", "Mia", "Noah", "Olivia", "Paul", "Quinn", "Rose", "Sam", "Tina",
-        "Uma", "Vince", "Wendy", "Xander", "Yara", "Zane", "Amy", "Brian", "Catherine", "Derek",
-        "Emma", "Felix", "Gina", "Harry", "Isla", "Jason", "Kim", "Leo", "Megan", "Nathan",
-        "Olga", "Peter", "Quincy", "Rachel", "Steve", "Tara", "Ursula", "Victor", "Will", "Xena",
-        "Yvonne", "Zach", "Amber", "Brandon", "Caitlin", "Dan", "Elena", "Finn", "Gabby", "Howard",
-        "Isabella", "Justin", "Kelsey", "Lara", "Marcus", "Nina", "Oscar", "Penny", "Quinn", "Riley",
-        "Sean", "Tiffany", "Ulrich", "Vanessa", "Warren", "Xavier", "Yasmine", "Zara", "Aiden", "Brooke",
-        "Cody", "Dana", "Eli", "Fiona", "Gavin", "Holly", "Ian", "Jamie", "Kara", "Logan",
-        "Maya", "Nate", "Olive", "Patrick", "Quentin", "Rosa", "Seth", "Tracy", "Uri", "Vivian",
-        "Wes", "Ximena", "Yusuf", "Zoey", "Alex", "Ben", "Cara", "Dylan", "Ellie", "Freddy",
-        "Gemma", "Hayden", "Irene", "Jake", "Kaitlyn", "Landon", "Maddie", "Nick", "Opal", "Parker",
-        "Quinn", "Rob", "Sophie", "Tyler", "Ula", "Vinny", "Whitney", "Xander", "Yara", "Zack",
-        "Abby", "Blake", "Chelsea", "Doug", "Eva", "Flynn", "George", "Hannah", "Isaac", "Jill",
-        "Kyle", "Lily", "Max", "Nora", "Owen", "Paula", "Quincy", "Reese", "Scott", "Tina",
-        "Ursula", "Vince", "Willow", "Xena", "Yasmin", "Zane", "Anna", "Brett", "Chloe", "Dean",
-        "Elsa", "Frankie", "Glenn", "Heather", "Ivan", "Jess", "Kira", "Lucas", "Mia", "Noel",
-        "Orion", "Pam", "Quinn", "Rob", "Sage", "Tom", "Uma", "Vera", "Wade", "Xander",
-        "Yvette", "Zack", "Ava", "Brady", "Cassie", "Dexter", "Erica", "Frances", "Grant", "Hazel",
-        "Isaiah", "Jen", "Kurt", "Liza", "Miles", "Nadia", "Otto", "Paige", "Quinn", "Rex",
-        "Sarah", "Theo", "Una", "Victor", "Wyatt", "Xanthe", "Yuri", "Zoey", "Aaron", "Britney"
-    ];
 
     // Initially try to connect
     connectWebSocket();

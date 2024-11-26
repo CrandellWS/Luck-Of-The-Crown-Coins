@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Santa’s Sweeps Sleigh Game</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            height: 100%;
+            width: 100%;
+        }
+
+        .game-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: calc(100vh * (16 / 9));
+            height: 100vh;
+            background: url('images/bg.jpg') no-repeat center center;
+            background-size: cover;
+        }
+
+        @media (min-aspect-ratio: 16/9) {
+            .game-container {
+                width: 100vw;
+                height: calc(100vw * (9 / 16));
+            }
+        }
+
+        .placeholders-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .placeholder {
+            position: absolute;
+            border: 2px solid #ffd700;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .placeholder:hover {
+            transform: scale(1.5);
+        }
+
+        /* Specific Positioning for Placeholders (proportional to container) */
+        #large-placeholder {
+            width: 10%;
+            height: 18.2%;
+            top: 23%;
+            left: 44%;
+        }
+
+        #small-1-placeholder {
+            width: 7.032%;
+            height: 12.5%;
+            top: 77.5%;
+            left: 37.1%;
+        }
+
+        #small-2-placeholder {
+            width: 7.032%;
+            height: 12.5%;
+            top: 77.5%;
+            left: 46.7%;
+        }
+
+
+        #small-3-placeholder {
+            width: 7.032%;
+            height: 12.5%;
+            top: 77.5%;
+            left: 56.5%;
+        }
+        .revealed-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+<div class="game-container">
+    <div class="placeholders-wrapper">
+        <!-- Placeholder Divs with initial images -->
+        <div class="placeholder" id="large-placeholder" onclick="revealImage('large')">
+            <img src="images/large-initial.jpg" alt="Click to reveal" class="revealed-image">
+        </div>
+        <div class="placeholder" id="small-1-placeholder" onclick="revealImage('small-1')">
+            <img src="images/small-1-initial.jpg" alt="Click to reveal" class="revealed-image">
+        </div>
+        <div class="placeholder" id="small-2-placeholder" onclick="revealImage('small-2')">
+            <img src="images/small-2-initial.jpg" alt="Click to reveal" class="revealed-image">
+        </div>
+        <div class="placeholder" id="small-3-placeholder" onclick="revealImage('small-3')">
+            <img src="images/small-3-initial.jpg" alt="Click to reveal" class="revealed-image">
+        </div>
+    </div>
+</div>
+<script>
+    function revealImage(placeholderId) {
+        const placeholder = document.getElementById(`${placeholderId}-placeholder`);
+
+        // Replace the placeholder div with an image
+        const img = document.createElement('img');
+        img.src = `images/${placeholderId}-revealed.jpg`; // Use different images for each placeholder
+        img.alt = 'Revealed Image';
+        img.classList.add('revealed-image');
+
+        // Replace placeholder content with image
+        placeholder.innerHTML = '';
+        placeholder.appendChild(img);
+    }
+</script>
+</body>
+</html>

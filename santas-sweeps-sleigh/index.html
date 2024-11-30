@@ -20,7 +20,7 @@
             transform: translate(-50%, -50%);
             width: calc(100vh * (16 / 9));
             height: 100vh;
-            background: url('images/bg.jpg') no-repeat center center;
+            background: url('images/bg.jpg?v2') no-repeat center center;
             background-size: cover;
         }
 
@@ -312,10 +312,10 @@
         <!-- Placeholder Divs with initial images -->
         <div class="placeholder" id="large-placeholder" onclick="revealGift('large')">
             <div class="cover">
-                <img src="images/large-initial.jpg" alt="Click to reveal" class="revealed-image">
+                <img src="images/large-initial.jpg?v2" alt="Click to reveal" class="revealed-image">
             </div>
             <div class="revealed-content">
-                <img src="images/large-revealed.jpg" alt="Revealed Image" class="revealed-image">
+                <img src="images/large-revealed.jpg?v2" alt="Revealed Image" class="revealed-image">
                 <div class="prize-overlay">
                     <div class="text-main">25</div>
                     <div class="text-sub">SC</div>
@@ -324,12 +324,12 @@
         </div>
         <div class="placeholder" id="small-1-placeholder" onclick="revealGift('small-1')">
             <div class="cover">
-                <img src="images/small-1-initial.jpg" alt="Click to reveal" class="revealed-image">
+                <img src="images/small-1-initial.jpg?v2" alt="Click to reveal" class="revealed-image">
             </div>
             <div class="revealed-content">
-                <img src="images/small-1-revealed.jpg" alt="Revealed Image" class="revealed-image">
+                <img src="images/small-1-revealed.jpg?v2" alt="Revealed Image" class="revealed-image">
                 <div class="prize-overlay">
-                    <img src="images/grinch.gif" class="extra-revealed-image">
+                    <img src="images/grinch.gif?v2" class="extra-revealed-image">
                     <div class="text-overlay">
                         <div class="text-main">15</div>
                         <div class="text-sub">SC</div>
@@ -339,12 +339,12 @@
         </div>
         <div class="placeholder" id="small-2-placeholder" onclick="revealGift('small-2')">
             <div class="cover">
-                <img src="images/small-2-initial.jpg" alt="Click to reveal" class="revealed-image">
+                <img src="images/small-2-initial.jpg?v2" alt="Click to reveal" class="revealed-image">
             </div>
             <div class="revealed-content">
-                <img src="images/small-2-revealed.jpg" alt="Revealed Image" class="revealed-image">
+                <img src="images/small-2-revealed.jpg?v2" alt="Revealed Image" class="revealed-image">
                 <div class="prize-overlay">
-                    <img src="images/grinch.gif" class="extra-revealed-image">
+                    <img src="images/grinch.gif?v2" class="extra-revealed-image">
                     <div class="text-overlay">
                         <div class="text-main">10</div>
                         <div class="text-sub">SC</div>
@@ -354,12 +354,12 @@
         </div>
         <div class="placeholder" id="small-3-placeholder" onclick="revealGift('small-3')">
             <div class="cover">
-                <img src="images/small-3-initial.jpg" alt="Click to reveal" class="revealed-image">
+                <img src="images/small-3-initial.jpg?v2" alt="Click to reveal" class="revealed-image">
             </div>
             <div class="revealed-content">
-                <img src="images/small-3-revealed.jpg" alt="Revealed Image" class="revealed-image">
+                <img src="images/small-3-revealed.jpg?v2" alt="Revealed Image" class="revealed-image">
                 <div class="prize-overlay">
-                    <img src="images/grinch.gif" class="extra-revealed-image">
+                    <img src="images/grinch.gif?v2" class="extra-revealed-image">
                     <div class="text-overlay">
                         <div class="text-main">5</div>
                         <div class="text-sub">SC</div>
@@ -457,10 +457,10 @@
     // Reset the game to its initial state
     function resetGame() {
         const placeholders = [
-            { id: 'large', initialImage: 'images/large-initial.jpg' },
-            { id: 'small-1', initialImage: 'images/small-1-initial.jpg' },
-            { id: 'small-2', initialImage: 'images/small-2-initial.jpg' },
-            { id: 'small-3', initialImage: 'images/small-3-initial.jpg' }
+            { id: 'large', initialImage: 'images/large-initial.jpg?v2' },
+            { id: 'small-1', initialImage: 'images/small-1-initial.jpg?v2' },
+            { id: 'small-2', initialImage: 'images/small-2-initial.jpg?v2' },
+            { id: 'small-3', initialImage: 'images/small-3-initial.jpg?v2' }
         ];
 
         placeholders.forEach(({ id, initialImage }) => {

@@ -50,7 +50,34 @@
             transform: scale(1.5);
         }
 
-        /* Specific Positioning for Placeholders (proportional to container) */
+        /* Text Overlay Styling */
+        .prize-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-shadow: 2px 2px 4px black;
+            pointer-events: none; /* Allow clicks to pass through */
+        }
+
+        .text-main {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .text-sub {
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        /* Specific Positioning for Placeholders */
         #large-placeholder {
             width: 10%;
             height: 18.2%;
@@ -72,52 +99,456 @@
             left: 46.7%;
         }
 
-
         #small-3-placeholder {
             width: 7.032%;
             height: 12.5%;
             top: 77.5%;
             left: 56.5%;
         }
+
         .revealed-image {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
+
+        .extra-revealed-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            display: none;
+        }
+
+        /* Menu Button */
+        .menu-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 15px;
+            background: #ffffff;
+            color: #000000;
+            font-size: 16px;
+            border: 2px solid #000000;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .menu-button:hover {
+            background: #f0f0f0;
+        }
+
+        /* Modal Styles */
+        .modal {
+            position: relative;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            width: 300px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            display: none;
+        }
+
+        .modal-header {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .modal-body {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Two columns */
+            gap: 15px; /* Space between groups */
+            margin-bottom: 20px;
+        }
+
+        .modal-body input {
+            margin: 5px 0;
+            padding: 5px;
+            width: calc(100% - 10px);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #0056b3;
+        }
+
+
+        .prize-group {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            background: #f9f9f9; /* Default background */
+            transition: background-color 0.3s ease;
+        }
+
+        .prize-group h3 {
+            margin: 0 0 10px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        /* Specific Background Colors for Groups */
+        .prize-group.main-prize {
+            grid-column: span 2; /* Main prize spans across two columns */
+            background: #ffe6f2; /* Subtle pink */
+        }
+
+        .prize-group.purple {
+            background: #f2e6ff; /* Subtle purple */
+        }
+
+        .prize-group.red {
+            background: #ffe6e6; /* Subtle red */
+        }
+
+        .prize-group.green {
+            background: #e6ffe6; /* Subtle green */
+        }
+
+        .prize-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .prize-group input {
+            margin-bottom: 10px;
+            padding: 5px;
+            width: calc(100% - 10px);
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        /* Cover styles */
+        .cover {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+            overflow: hidden;
+            z-index: 2;
+            transition: transform 0.5s ease-in;
+        }
+
+        /* Revealed content styles */
+        .revealed-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.3s ease-in;
+        }
+
+        /* Animation keyframes */
+        @keyframes slide-down {
+            0% {
+                transform: translateY(0);
+            }
+            70% {
+                transform: translateY(30%);
+            }
+            100% {
+                transform: translateY(100%);
+            }
+        }
+
+        /* Grinch animation */
+        @keyframes grinch-rise {
+            0% {
+                top: 0; /* Start from below the container */
+            }
+            100% {
+                top: -100%; /* End fully visible */
+            }
+        }
+
+        /* Grinch-specific styles */
+        .extra-revealed-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            display: none;
+        }
+
     </style>
 </head>
 <body>
 <div class="game-container">
     <div class="placeholders-wrapper">
         <!-- Placeholder Divs with initial images -->
-        <div class="placeholder" id="large-placeholder" onclick="revealImage('large')">
-            <img src="images/large-initial.jpg" alt="Click to reveal" class="revealed-image">
+        <div class="placeholder" id="large-placeholder" onclick="revealGift('large')">
+            <div class="cover">
+                <img src="images/large-initial.jpg" alt="Click to reveal" class="revealed-image">
+            </div>
+            <div class="revealed-content">
+                <img src="images/large-revealed.jpg" alt="Revealed Image" class="revealed-image">
+                <div class="prize-overlay">
+                    <div class="text-main">25</div>
+                    <div class="text-sub">SC</div>
+                </div>
+            </div>
         </div>
-        <div class="placeholder" id="small-1-placeholder" onclick="revealImage('small-1')">
-            <img src="images/small-1-initial.jpg" alt="Click to reveal" class="revealed-image">
+        <div class="placeholder" id="small-1-placeholder" onclick="revealGift('small-1')">
+            <div class="cover">
+                <img src="images/small-1-initial.jpg" alt="Click to reveal" class="revealed-image">
+            </div>
+            <div class="revealed-content">
+                <img src="images/small-1-revealed.jpg" alt="Revealed Image" class="revealed-image">
+                <div class="prize-overlay">
+                    <img src="images/grinch.gif" class="extra-revealed-image">
+                    <div class="text-overlay">
+                        <div class="text-main">15</div>
+                        <div class="text-sub">SC</div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="placeholder" id="small-2-placeholder" onclick="revealImage('small-2')">
-            <img src="images/small-2-initial.jpg" alt="Click to reveal" class="revealed-image">
+        <div class="placeholder" id="small-2-placeholder" onclick="revealGift('small-2')">
+            <div class="cover">
+                <img src="images/small-2-initial.jpg" alt="Click to reveal" class="revealed-image">
+            </div>
+            <div class="revealed-content">
+                <img src="images/small-2-revealed.jpg" alt="Revealed Image" class="revealed-image">
+                <div class="prize-overlay">
+                    <img src="images/grinch.gif" class="extra-revealed-image">
+                    <div class="text-overlay">
+                        <div class="text-main">10</div>
+                        <div class="text-sub">SC</div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="placeholder" id="small-3-placeholder" onclick="revealImage('small-3')">
-            <img src="images/small-3-initial.jpg" alt="Click to reveal" class="revealed-image">
+        <div class="placeholder" id="small-3-placeholder" onclick="revealGift('small-3')">
+            <div class="cover">
+                <img src="images/small-3-initial.jpg" alt="Click to reveal" class="revealed-image">
+            </div>
+            <div class="revealed-content">
+                <img src="images/small-3-revealed.jpg" alt="Revealed Image" class="revealed-image">
+                <div class="prize-overlay">
+                    <img src="images/grinch.gif" class="extra-revealed-image">
+                    <div class="text-overlay">
+                        <div class="text-main">5</div>
+                        <div class="text-sub">SC</div>
+                    </div>
+                </div>
+            </div>
         </div>
+
     </div>
 </div>
+
+<!-- Menu Button -->
+<button class="menu-button" onclick="openMenu()">Menu</button>
+
+<!-- Modal -->
+<div class="modal" id="menu-modal">
+    <div class="modal-header">Game Menu</div>
+    <div class="modal-body">
+        <!-- Main Prize Configuration -->
+        <div class="prize-group main-prize">
+            <h3>Main Prize</h3>
+            <label for="main-prize-title">Title:</label>
+            <input type="text" id="main-prize-title" placeholder="Main Title" value="100">
+            <label for="main-prize-subtitle">Subtitle:</label>
+            <input type="text" id="main-prize-subtitle" placeholder="Main Subtitle" value="SC">
+        </div>
+
+        <!-- Small Prize 1 -->
+        <div class="prize-group purple">
+            <h3>Small Prize 1</h3>
+            <label for="small-prize-1-title">Title:</label>
+            <input type="text" id="small-prize-1-title" placeholder="Small 1 Title" value="25">
+            <label for="small-prize-1-subtitle">Subtitle:</label>
+            <input type="text" id="small-prize-1-subtitle" placeholder="Small 1 Subtitle" value="SC">
+        </div>
+
+        <!-- Small Prize 2 -->
+        <div class="prize-group red">
+            <h3>Small Prize 2</h3>
+            <label for="small-prize-2-title">Title:</label>
+            <input type="text" id="small-prize-2-title" placeholder="Small 2 Title" value="10">
+            <label for="small-prize-2-subtitle">Subtitle:</label>
+            <input type="text" id="small-prize-2-subtitle" placeholder="Small 2 Subtitle" value="SC">
+        </div>
+
+        <!-- Small Prize 3 -->
+        <div class="prize-group green">
+            <h3>Small Prize 3</h3>
+            <label for="small-prize-3-title">Title:</label>
+            <input type="text" id="small-prize-3-title" placeholder="Small 3 Title" value="5">
+            <label for="small-prize-3-subtitle">Subtitle:</label>
+            <input type="text" id="small-prize-3-subtitle" placeholder="Small 3 Subtitle" value="SC">
+        </div>
+
+        <!-- Options -->
+        <div class="prize-group">
+            <h3>Options</h3>
+            <label>
+                <input type="checkbox" id="add-grinch" checked> Add Grinch
+            </label>
+        </div>
+    </div>
+
+
+    <button class="btn" onclick="resetGame()">Reset Game</button>
+    <button class="btn" onclick="applySettings()">Apply Changes</button>
+</div>
+
+<div class="modal-overlay" id="modal-overlay" onclick="closeMenu()"></div>
+
 <script>
-    function revealImage(placeholderId) {
+
+    function revealGift(placeholderId) {
         const placeholder = document.getElementById(`${placeholderId}-placeholder`);
+        const cover = placeholder.querySelector('.cover');
+        const prizeOverlay = placeholder.querySelector('.prize-overlay');
+        const extraRevealedImage = prizeOverlay.querySelector('.extra-revealed-image');
 
-        // Replace the placeholder div with an image
-        const img = document.createElement('img');
-        img.src = `images/${placeholderId}-revealed.jpg`; // Use different images for each placeholder
-        img.alt = 'Revealed Image';
-        img.classList.add('revealed-image');
+        // Add animation to the cover (lid sliding down)
+        cover.style.animation = 'slide-down 0.8s forwards ease-in-out';
 
-        // Replace placeholder content with image
-        placeholder.innerHTML = '';
-        placeholder.appendChild(img);
+        // Trigger Grinch animation if the extra-revealed-image is set to display
+        if (extraRevealedImage.style.display === 'block') {
+            setTimeout(() => {
+                extraRevealedImage.style.animation = 'grinch-rise 1s ease-in-out forwards';
+            }, 300); // Delay to sync with the slow reveal portion
+        }
+
+        // Show the revealed content after the animation
+        setTimeout(() => {
+            cover.style.display = 'none'; // Hide the cover after animation
+        }, 800); // Match the duration of the slide-down animation
     }
+
+    // Reset the game to its initial state
+    function resetGame() {
+        const placeholders = [
+            { id: 'large', initialImage: 'images/large-initial.jpg' },
+            { id: 'small-1', initialImage: 'images/small-1-initial.jpg' },
+            { id: 'small-2', initialImage: 'images/small-2-initial.jpg' },
+            { id: 'small-3', initialImage: 'images/small-3-initial.jpg' }
+        ];
+
+        placeholders.forEach(({ id, initialImage }) => {
+            const placeholder = document.getElementById(`${id}-placeholder`);
+
+            // Reset cover animation and image
+            const cover = placeholder.querySelector('.cover');
+            if (cover) {
+                cover.style.display = 'block'; // Show the cover again
+                cover.style.animation = ''; // Clear any existing animation
+            }
+
+        });
+
+        applySettings();
+    }
+
+
+    // Open the menu modal
+    function openMenu() {
+        document.getElementById('menu-modal').style.display = 'block';
+        document.getElementById('modal-overlay').style.display = 'block';
+    }
+
+    function closeMenu() {
+        document.getElementById('menu-modal').style.display = 'none';
+        document.getElementById('modal-overlay').style.display = 'none';
+    }
+
+    function applySettings() {
+        const mainTitle = document.getElementById('main-prize-title').value || "100";
+        const mainSubtitle = document.getElementById('main-prize-subtitle').value || "SC";
+
+        const smallPrizes = [
+            {
+                title: document.getElementById('small-prize-1-title').value || "25",
+                subtitle: document.getElementById('small-prize-1-subtitle').value || "SC"
+            },
+            {
+                title: document.getElementById('small-prize-2-title').value || "10",
+                subtitle: document.getElementById('small-prize-2-subtitle').value || "SC"
+            },
+            {
+                title: document.getElementById('small-prize-3-title').value || "5",
+                subtitle: document.getElementById('small-prize-3-subtitle').value || "SC"
+            }
+        ];
+
+        // Shuffle the small prizes
+        smallPrizes.sort(() => Math.random() - 0.5);
+
+        // Update main prize
+        const largePlaceholder = document.getElementById('large-placeholder');
+        const largeOverlay = largePlaceholder.querySelector('.prize-overlay');
+        largeOverlay.querySelector('.text-main').textContent = mainTitle;
+        largeOverlay.querySelector('.text-sub').textContent = mainSubtitle;
+
+        // Determine if "Add Grinch" is enabled
+        const addGrinch = document.getElementById('add-grinch').checked;
+
+        // Randomly assign Grinch to one of the small prizes if enabled
+        let grinchIndex = -1;
+        if (addGrinch) {
+            grinchIndex = Math.floor(Math.random() * 3); // Random index for Grinch (0, 1, 2)
+        }
+
+        // Update small prizes
+        smallPrizes.forEach((prize, index) => {
+            const smallPlaceholder = document.getElementById(`small-${index + 1}-placeholder`);
+            const smallOverlay = smallPlaceholder.querySelector('.prize-overlay');
+            const extraRevealedImage = smallOverlay.querySelector('.extra-revealed-image');
+
+            smallOverlay.querySelector('.text-main').textContent = prize.title;
+            smallOverlay.querySelector('.text-sub').textContent = prize.subtitle;
+
+            if (index === grinchIndex) {
+                extraRevealedImage.style.display = 'block'; // Show Grinch image
+            } else {
+                extraRevealedImage.style.display = 'none'; // Hide Grinch image for others
+            }
+        });
+
+        closeMenu();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        resetGame()
+    });
 </script>
 </body>
 </html>

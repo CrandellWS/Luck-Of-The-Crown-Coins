@@ -466,6 +466,12 @@
         placeholders.forEach(({ id, initialImage }) => {
             const placeholder = document.getElementById(`${id}-placeholder`);
 
+            const prizeOverlay = placeholder.querySelector('.prize-overlay');
+            const extraRevealedImage = prizeOverlay.querySelector('.extra-revealed-image');
+
+            if (extraRevealedImage) {
+                extraRevealedImage.style.animation = 'none';
+            }
             // Reset cover animation and image
             const cover = placeholder.querySelector('.cover');
             if (cover) {

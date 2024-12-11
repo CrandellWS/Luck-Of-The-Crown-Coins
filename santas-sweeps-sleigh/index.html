@@ -148,7 +148,7 @@
             border: 1px solid #ccc;
             border-radius: 10px;
             padding: 20px;
-            width: 300px;
+            width: 500px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             z-index: 1000;
             display: none;
@@ -198,6 +198,10 @@
             background: #0056b3;
         }
 
+
+        .options-div {
+            background: #f9f9f9; /* Default background */
+        }
 
         .prize-group {
             border: 1px solid #ddd;
@@ -342,8 +346,11 @@
             <div class="revealed-content">
                 <img src="images/large-revealed.jpg?v2" alt="Revealed Image" class="revealed-image">
                 <div class="prize-overlay">
-                    <div class="text-main">25</div>
-                    <div class="text-sub">SC</div>
+                    <img src="images/wheel-spin.gif?v2" class="extra-revealed-image">
+                    <div class="text-overlay">
+                        <div class="text-main">25</div>
+                        <div class="text-sub">SC</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -409,10 +416,28 @@
         <!-- Main Prize Configuration -->
         <div class="prize-group main-prize">
             <h3>Main Prize</h3>
-            <label for="main-prize-title">Title:</label>
+            <label for="main-prize-title">Main Prize:</label>
             <input type="text" id="main-prize-title" placeholder="Main Title" value="100">
             <label for="main-prize-subtitle">Subtitle:</label>
             <input type="text" id="main-prize-subtitle" placeholder="Main Subtitle" value="SC">
+            <label for="main-prize-title-v2">Alt Prize 1:</label>
+            <input type="text" id="main-prize-title-v2" placeholder="Alt Prize 1" value="75" disabled="" style="opacity: 0.5;">
+            <label for="main-prize-title-v3">Alt Prize 2:</label>
+            <input type="text" id="main-prize-title-v3" placeholder="Alt Prize 1" value="50" disabled="" style="opacity: 0.5;">
+        </div>
+
+        <!-- Options -->
+        <div class="prize-group main-prize options-div">
+            <h3>Large Prize Options</h3>
+            <!-- New Checkbox for Grinch in Large Box -->
+            <label>
+                <input type="checkbox" id="enable-large-random"> Enable Random Large Prizes
+            </label>
+            <!-- New Checkbox for Grinch in Large Box -->
+            <label>
+                <input type="checkbox" id="enable-large-extra"> Enable 50% Wheel Spin Chance
+            </label>
+
         </div>
 
         <!-- Small Prize 1 -->
@@ -444,9 +469,10 @@
 
         <!-- Options -->
         <div class="prize-group">
-            <h3>Options</h3>
+
+            <h3>Small Prize Options</h3>
             <label>
-                <input type="checkbox" id="add-grinch" checked> Add Grinch
+                <input type="checkbox" id="add-grinch" checked> Add Small Prize Grinch
             </label>
         </div>
     </div>
@@ -498,7 +524,9 @@
 
             if (extraRevealedImage) {
                 extraRevealedImage.style.animation = 'none';
+                extraRevealedImage.style.display = 'none'; // Reset Grinch visibility
             }
+
             // Reset cover animation and image
             const cover = placeholder.querySelector('.cover');
             if (cover) {
@@ -523,8 +551,56 @@
         document.getElementById('modal-overlay').style.display = 'none';
     }
 
+    const enableRandomCheckbox = document.getElementById('enable-large-random');
+    const mainTitleInput = document.getElementById('main-prize-title');
+    const mainTitleV2Input = document.getElementById('main-prize-title-v2');
+    const mainTitleV3Input = document.getElementById('main-prize-title-v3');
+
+
+    // Function to randomly select a title
+    function getRandomPrizeTitle() {
+        if (enableRandomCheckbox.checked) {
+            const mainTitleV0 = mainTitleInput.value || "100";
+            const mainTitleV1 = mainTitleV2Input.value || "75";
+            const mainTitleV2 = mainTitleV3Input.value || "50";
+
+            const prizeTitles = [mainTitleV0, mainTitleV1, mainTitleV2];
+            const largePrizeIndex = Math.floor(Math.random() * prizeTitles.length);
+
+            return prizeTitles[largePrizeIndex];
+        } else {
+            // Default to mainTitle if random is not enabled
+            return mainTitleInput.value || "100";
+        }
+    }
+
+    // Function to update the state of the inputs
+    function updateLargePrizeInputs() {
+        const isEnabled = enableRandomCheckbox.checked;
+
+        // Enable or disable inputs based on the checkbox state
+        mainTitleV2Input.disabled = !isEnabled;
+        mainTitleV3Input.disabled = !isEnabled;
+
+        // Update styles for better visual feedback (optional)
+        if (isEnabled) {
+            mainTitleV2Input.style.opacity = "1";
+            mainTitleV3Input.style.opacity = "1";
+        } else {
+            mainTitleV2Input.style.opacity = "0.5";
+            mainTitleV3Input.style.opacity = "0.5";
+        }
+    }
+
+    // Listen for changes on the checkbox
+    enableRandomCheckbox.addEventListener('change', updateLargePrizeInputs);
+
     function applySettings() {
-        const mainTitle = document.getElementById('main-prize-title').value || "100";
+
+        // Assign the randomly chosen title to mainTitle
+        const mainTitle = getRandomPrizeTitle();
+
+
         const mainSubtitle = document.getElementById('main-prize-subtitle').value || "SC";
 
         const smallPrizes = [
@@ -548,6 +624,19 @@
         // Update main prize
         const largePlaceholder = document.getElementById('large-placeholder');
         const largeOverlay = largePlaceholder.querySelector('.prize-overlay');
+
+        const enableLargeExtras = document.getElementById('enable-large-extra').checked;
+        const largeExtraImage = largePlaceholder.querySelector('.extra-revealed-image');
+
+        var random_boolean = Math.random() < 0.5;
+
+        // Show or hide the Grinch for the large prize
+        if (enableLargeExtras && random_boolean) {
+            largeExtraImage.style.display = 'block';
+        } else {
+            largeExtraImage.style.display = 'none';
+        }
+
         largeOverlay.querySelector('.text-main').textContent = mainTitle;
         largeOverlay.querySelector('.text-sub').textContent = mainSubtitle;
 

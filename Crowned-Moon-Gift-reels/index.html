@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slot Game</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+        }
+
+        .game-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: calc(100vh * (16 / 9));
+            height: 100vh;
+            background: url('./img/background.png') no-repeat center center;
+            background-size: cover;
+        }
+        @media (min-aspect-ratio: 16/9) {
+            .game-container {
+                width: 100vw;
+                height: calc(100vw * (9 / 16));
+            }
+        }
+
+        .reel {
+            position: absolute;
+            background: transparent;
+            border: 2px solid #fff;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        #reel1 {
+            top: calc(385 / 1080 * 100%);
+            left: calc(600 / 1920 * 100%);
+            width: calc(215 / 1920 * 100%);
+            height: calc((995 - 485) / 1080 * 100%);
+        }
+
+        #reel2 {
+            top: calc(385 / 1080 * 100%);
+            left: calc(853 / 1920 * 100%);
+            width: calc(215 / 1920 * 100%);
+            height: calc((995 - 485) / 1080 * 100%);
+        }
+
+        #reel3 {
+            top: calc(385 / 1080 * 100%);
+            left: calc(1105 / 1920 * 100%);
+            width: calc(215 / 1920 * 100%);
+            height: calc((995 - 485) / 1080 * 100%);
+        }
+
+        .symbols {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            transition: transform 1s ease-out;
+        }
+
+        .symbol {
+            width: 100%;
+            height: calc(1 / 3 * 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .symbol img {
+            max-width: 80%;
+            max-height: 80%;
+        }
+
+        .fade-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .fade-overlay:before,
+        .fade-overlay:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 30%;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 25%));
+            z-index: 1;
+        }
+
+        .fade-overlay:after {
+            top: auto;
+            bottom: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 25%));
+        }
+
+        button {
+            position: absolute;
+            bottom: 5%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            background: #fff;
+            color: #000;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+
+        /* Add flashing overlay for the middle line */
+        .flashing-line {
+            position: absolute;
+            top: 50%; /* Center the line */
+            transform: translateY(-50%); /* Adjust to align perfectly in the center */
+            left: 0;
+            width: 100%;
+            height: calc(1 / 15 * 100%); /* Slim line height */
+            background: rgba(255, 105, 180, 0.6); /* Pink overlay */
+            display: none;
+            z-index: 2;
+            pointer-events: none;
+            box-shadow: 0 0 10px rgba(255, 105, 180, 0.8);
+            border: 2px solid rgba(255, 20, 147, 0.8);
+        }
+
+
+        .flashing-line.active {
+            display: block;
+            animation: flash 1s infinite;
+        }
+
+        @keyframes flash {
+            0%, 100% {
+                background: rgba(255, 105, 180, 0.3);
+            }
+            50% {
+                background: rgba(255, 105, 180, 0.7);
+            }
+        }
+
+        /* Highlight the middle row symbols */
+        .highlight {
+            border: 3px solid pink;
+            border-radius: 5px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            min-height: 300px;
+            min-width: 250px;
+        }
+
+        .modal-content {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        #openModal {
+            position: fixed; /* Ensures placement is viewport-relative */
+            top: 20px; /* 20px from top */
+            right: 20px; /* 20px from right */
+            width: 200px;
+            height: 50px;
+            z-index: 9999; /* Higher z-index to ensure it's on top */
+            text-align: center;
+            background: white;
+        }
+
+        /* Light pink background when hovered */
+        #openModal:hover {
+            background: #ffcce6; /* Light pink for hover */
+        }
+
+        /* Good pink background when clicked (active state) */
+        #openModal:active {
+            background: #ff66b2; /* Vibrant pink for click */
+        }
+
+        #winPercentageContainer {
+            margin-top: 10px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="game-container">
+    <div class="reel" id="reel1">
+        <div class="symbols"></div>
+        <div class="fade-overlay"></div>
+        <div class="flashing-line" id="flashing-line1"></div>
+    </div>
+    <div class="reel" id="reel2">
+        <div class="symbols"></div>
+        <div class="fade-overlay"></div>
+        <div class="flashing-line" id="flashing-line2"></div>
+    </div>
+    <div class="reel" id="reel3">
+        <div class="symbols"></div>
+        <div class="fade-overlay"></div>
+        <div class="flashing-line" id="flashing-line3"></div>
+    </div>
+    <button id="spinButton">Spin</button>
+</div>
+<div id="configModal" class="modal">
+    <div class="modal-content">
+        <h2>Game Configuration</h2>
+        <label>
+            <input type="checkbox" id="increaseWinCheck" checked>
+            INCREASE RANDOM WIN
+        </label>
+        <div id="winPercentageContainer" >
+            <label for="winPercentage">Extra Chance:</label>
+            <select id="winPercentage">
+                <option value="100">Full Moon Spins (100% Wins)</option>
+                <option value="50">Half Moon (50% wins)</option>
+                <option value="25" selected>New Moon (25% Wins)</option>
+                <option value="10" >Only Hope (10%)</option>
+            </select>
+        </div>
+        <button id="closeModal">Close</button>
+    </div>
+</div>
+<div id="openModal" style="position: fixed; top: 20px; right: 20px; width: 100px; height: 50px; z-index: 9999;cursor: pointer"><p>Extra Chance</p></div>
+
+<script>
+    // Preload the audio files
+    const spinSound = new Audio('audio/394101__deleted_user_6479820__single-swish-5.mp3');
+    const stopSound = new Audio('audio/202314__7778__click-1.mp3');
+
+    // Functions to play the sounds
+    function playSpinSound() {
+        spinSound.currentTime = 0; // Reset to the start
+        spinSound.play();
+    }
+
+    function playStopSound() {
+        stopSound.currentTime = 0; // Reset to the start
+        stopSound.play();
+    }
+
+    const spinButton = document.getElementById('spinButton');
+    const symbolsArray = [
+        "./img/moon.png",
+        "./img/star.png",
+        "./img/pink-gem.png",
+        "./img/crown.png",
+        "./img/moon-2.png",
+        "./img/blue-gem.png",
+        "./img/shooting-star.png"
+    ];
+
+    // Modal Elements
+    const openModalBtn = document.getElementById('openModal');
+    const configModal = document.getElementById('configModal');
+    const closeModalBtn = document.getElementById('closeModal');
+    const increaseWinCheck = document.getElementById('increaseWinCheck');
+    const winPercentageContainer = document.getElementById('winPercentageContainer');
+    const winPercentageSelect = document.getElementById('winPercentage');
+
+    // Open/Close Modal
+    openModalBtn.addEventListener('click', () => {
+        configModal.style.display = 'block';
+    });
+
+    closeModalBtn.addEventListener('click', () => {
+        configModal.style.display = 'none';
+    });
+
+    // Toggle Win Percentage Dropdown
+    increaseWinCheck.addEventListener('change', () => {
+        winPercentageContainer.style.display = increaseWinCheck.checked ? 'block' : 'none';
+    });
+
+    let meTest = true
+    function generateInitialSymbols(reel, isWinningSpin = false, winningSymbol = null, numSymbols = 21) {
+        console.log('Function called with parameters:', {
+            reel,
+            isWinningSpin,
+            winningSymbol,
+            numSymbols
+        });
+        // if(meTest !== true) {
+        //     return;
+        // }
+        // meTest = false
+
+        const symbolsContainer = reel.querySelector('.symbols');
+        // console.log('symbolsContainer:', symbolsContainer);
+
+        // Clear existing symbols
+        symbolsContainer.innerHTML = '';
+        // console.log('symbolsContainer cleared.');
+
+        for (let i = 0; i < numSymbols; i++) {
+            const newSymbol = document.createElement('div');
+            newSymbol.className = 'symbol';
+
+            const img = document.createElement('img');
+
+            // Otherwise, randomize the symbol
+            img.src = symbolsArray[Math.floor(Math.random() * symbolsArray.length)];
+            // console.log(`Random symbol added at index ${i}:`, randomSymbol);
+
+            newSymbol.appendChild(img);
+            // console.log('Appended img to newSymbol:', newSymbol);
+
+            symbolsContainer.appendChild(newSymbol);
+            // console.log(`Appended newSymbol to symbolsContainer at index ${i}.`);
+        }
+
+    }
+
+
+
+
+    function spinReel(reel, duration) {
+        const symbolsContainer = reel.querySelector('.symbols');
+        symbolsContainer.style.transform = `translateY(0)`;
+
+        const symbolHeight = symbolsContainer.firstElementChild.offsetHeight;
+
+        // Prepend new symbols and remove old symbols
+        for (let i = 0; i < 3; i++) {
+            const newSymbol = document.createElement('div');
+            newSymbol.className = 'symbol';
+            const img = document.createElement('img');
+            img.src = symbolsArray[Math.floor(Math.random() * symbolsArray.length)];
+            newSymbol.appendChild(img);
+            symbolsContainer.insertBefore(newSymbol, symbolsContainer.firstChild);
+        }
+
+        while (symbolsContainer.children.length > 21) {
+            symbolsContainer.removeChild(symbolsContainer.lastChild);
+        }
+
+        if (isWinningSpin && winningSymbol ) {
+            const symbol = reel.querySelector('.symbols').children[1]; // Get the specific symbol
+            const img = symbol.querySelector('img'); // Get the <img> inside the symbol
+
+            if (img) {
+                img.setAttribute('src', winningSymbol); // Update the src attribute
+            }
+        }
+
+        playSpinSound();
+        // Spin animation
+        symbolsContainer.style.transition = `transform ${duration}s ease-out`;
+
+        symbolsContainer.style.transform = `translateY(${symbolHeight * 18}px)`;
+
+
+
+        setTimeout(() => {
+            symbolsContainer.style.transition = "none";
+            playStopSound();
+        }, duration * 950);
+    }
+
+    // Generate initial symbols for all reels
+    generateInitialSymbols(document.getElementById('reel1'));
+    generateInitialSymbols(document.getElementById('reel2'));
+    generateInitialSymbols(document.getElementById('reel3'));
+
+    let winChance = increaseWinCheck.checked
+        ? parseInt(winPercentageSelect.value, 10) / 100
+        : 0;
+
+    // Determine if this spin should be a win
+    let isWinningSpin = Math.random() < winChance;
+
+    // Select a winning symbol if the spin is a winner
+    let winningSymbol = null;
+    spinButton.addEventListener('click', () => {
+        winChance = increaseWinCheck.checked
+            ? parseInt(winPercentageSelect.value, 10) / 100
+            : 0;
+        isWinningSpin = Math.random() < winChance;
+        winningSymbol = isWinningSpin
+            ? symbolsArray[Math.floor(Math.random() * symbolsArray.length)]
+            : null;
+        // Generate initial symbols for all reels
+        generateInitialSymbols(document.getElementById('reel1'),isWinningSpin, winningSymbol);
+        generateInitialSymbols(document.getElementById('reel2'),isWinningSpin, winningSymbol);
+        generateInitialSymbols(document.getElementById('reel3'),isWinningSpin, winningSymbol);
+        const reels = [
+            { reel: document.getElementById('reel1'), duration: 3 },
+            { reel: document.getElementById('reel2'), duration: 3.5 },
+            { reel: document.getElementById('reel3'), duration: 4 }
+        ];
+
+        reels.forEach(({ reel, duration }, index) => {
+            spinReel(reel, duration);
+        });
+    });
+
+
+
+    increaseWinCheck.addEventListener('change', () => {
+        winPercentageContainer.style.display = increaseWinCheck.checked ? 'block' : 'none';
+    });
+
+</script>
+</body>
+</html>

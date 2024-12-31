@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slot Game</title>
+    <script src="js/javascript.js?v2"></script>
+    <link rel="stylesheet" href="css/style.css?v1">
+</head>
+<body>
+<div class="game-container">
+    <div class="button-reel">
+        <button id="gambleWithAshButton">GambleWithAsh Spins</button>
+        <button id="fullMoonButton">Full Moon <span>🌕</span></button>
+        <button id="halfMoonButton">Half Moon <span>🌓</span></button>
+        <button id="crescentMoonButton">Crescent Moon <span>🌙</span></button>
+        <button id="newMoonButton">Black Hole <span>🌑</span></button>
+        <button id="robInSpinsButton">Rob-In-Spins</button>
+    </div>
+    <div class="reel" id="reel1">
+        <div class="symbols"></div>
+    </div>
+    <div class="reel" id="reel2">
+        <div class="symbols"></div>
+    </div>
+    <div class="reel" id="reel3">
+        <div class="symbols"></div>
+    </div>
+    <button id="spinButton">Spin</button>
+</div>
+
+<div id="configModal" class="modal">
+    <div class="modal-content">
+        <h2>Win Configuration</h2>
+        <div class="modal-section">
+            <label for="increaseWinCheck">
+                <input type="checkbox" id="increaseWinCheck" checked>
+                Increase Random Win Percentage
+            </label>
+        </div>
+        <div id="winPercentageContainer" class="modal-section">
+            <div class="config-item">
+                <label for="gambleWithAshInput">GambleWithAsh Spins:</label>
+                <div>
+                    wins <input type="number" id="gambleWithAshInput" value="100" min="0" max="100">
+                    <span>% of spins</span>
+                </div>
+            </div>
+            <div class="config-item">
+                <label for="fullMoonInput">🌕 Full Moon:</label>
+                <div>
+                    wins <input type="number" id="fullMoonInput" value="75" min="0" max="100">
+                    <span>% of spins</span>
+                </div>
+            </div>
+            <div class="config-item">
+                <label for="halfMoonInput">🌓 Half Moon:</label>
+                <div>
+                    wins <input type="number" id="halfMoonInput" value="50" min="0" max="100">
+                    <span>% of spins</span>
+                </div>
+            </div>
+            <div class="config-item">
+                <label for="crescentMoonInput">🌙 Crescent Moon:</label>
+                <div>
+                    wins <input type="number" id="crescentMoonInput" value="25" min="0" max="100">
+                    <span>% of spins</span>
+                </div>
+            </div>
+            <div class="config-item">
+                <label for="newMoonInput">🌑 Black Hole:</label>
+                <div>
+                    wins <input type="number" id="newMoonInput" value="10" min="0" max="100">
+                    <span>% of spins</span>
+                </div>
+            </div>
+            <div class="config-item">
+                <label for="robInSpinsInput">Rob-In-Spins:</label>
+                <div>
+                    wins <input type="number" id="robInSpinsInput" value="1" min="0" max="100">
+                    <span>% of spins</span>
+                </div>
+            </div>
+
+        </div>
+        <button id="closeModal">Close</button>
+    </div>
+</div>
+
+<div id="openModal">
+    <p>Configuration</p>
+</div>
+
+<script>
+</script>
+</body>
+</html>

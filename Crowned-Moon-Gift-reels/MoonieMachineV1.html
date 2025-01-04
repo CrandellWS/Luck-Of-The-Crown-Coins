@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Slot Game</title>
-    <script src="js/javascript.js?v2"></script>
-    <link rel="stylesheet" href="css/style.css?v1">
+    <script src="js/javascript.js?v7"></script>
+    <link rel="stylesheet" href="css/style.css?v7" type="text/css">
 </head>
 <body>
 <div class="game-container">
@@ -26,6 +26,7 @@
     <div class="reel" id="reel3">
         <div class="symbols"></div>
     </div>
+    <div class="symbol-values-container" id="symbolValuesContainerRight"></div>
     <button id="spinButton">Spin</button>
 </div>
 
@@ -82,6 +83,42 @@
                 </div>
             </div>
 
+        </div>
+
+        <label for="showSymbolValuesCheck">
+            <input type="checkbox" id="showSymbolValuesCheck" checked>
+            Show Symbol Values
+        </label>
+        <h3>Symbol Values</h3>
+        <div id="symbolValuesContainer">
+            <div class="config-item">
+                <label for="valueMoon2">Crowned Moon:</label>
+                <input type="text" id="valueMoon2">
+            </div>
+            <div class="config-item">
+                <label for="valueCrown">Crown:</label>
+                <input type="text" id="valueCrown">
+            </div>
+            <div class="config-item">
+                <label for="valueBlueGem">Blue Gem:</label>
+                <input type="text" id="valueBlueGem">
+            </div>
+            <div class="config-item">
+                <label for="valueShootingStar">Shooting Star:</label>
+                <input type="text" id="valueShootingStar">
+            </div>
+            <div class="config-item">
+                <label for="valueMoon">Moon:</label>
+                <input type="text" id="valueMoon">
+            </div>
+            <div class="config-item">
+                <label for="valuePinkGem">Pink Gem:</label>
+                <input type="text" id="valuePinkGem">
+            </div>
+            <div class="config-item">
+                <label for="valueStar">Star:</label>
+                <input type="text" id="valueStar">
+            </div>
         </div>
         <button id="closeModal">Close</button>
     </div>

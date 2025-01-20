@@ -1,0 +1,457 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+}
+body {
+    font-family: Arial, 'Segoe UI Emoji', 'Apple Color Emoji', sans-serif;
+}
+
+label {
+    font-family: 'Segoe UI Emoji', 'Apple Color Emoji', sans-serif;
+}
+
+.game-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100vh * (16 / 9));
+    height: 100vh;
+    background: url('../img/background.png') no-repeat center center;
+    background-size: cover;
+}
+@media (min-aspect-ratio: 16/9) {
+    .game-container {
+        width: 100vw;
+        height: calc(100vw * (9 / 16));
+    }
+}
+
+.reel, .button-reel {
+    position: absolute;
+    background: transparent;
+    border: 2px solid #fff;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#reel1 {
+    top: calc(385 / 1080 * 100%);
+    left: calc(600 / 1920 * 100%);
+    width: calc(215 / 1920 * 100%);
+    height: calc((995 - 485) / 1080 * 100%);
+}
+
+#reel2 {
+    top: calc(385 / 1080 * 100%);
+    left: calc(853 / 1920 * 100%);
+    width: calc(215 / 1920 * 100%);
+    height: calc((995 - 485) / 1080 * 100%);
+}
+
+#reel3 {
+    top: calc(385 / 1080 * 100%);
+    left: calc(1105 / 1920 * 100%);
+    width: calc(215 / 1920 * 100%);
+    height: calc((995 - 485) / 1080 * 100%);
+}
+
+.button-reel {
+    top: calc(385 / 1080 * 100%);
+    left: calc(230 / 1920 * 100%);
+    width: calc(230 / 1920 * 100%);
+    height: calc((995 - 485) / 1080 * 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid #ff66b2;
+}
+
+.symbols {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    transition: transform 1s ease-out;
+}
+
+.symbol {
+    width: 100%;
+    height: calc(1 / 3 * 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.symbol img {
+    max-width: 80%;
+    max-height: 80%;
+}
+
+.fade-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.fade-overlay:before,
+.fade-overlay:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 34%;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 25%));
+    z-index: 1;
+}
+
+.fade-overlay:after {
+    top: auto;
+    bottom: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 25%));
+}
+
+
+/* Add flashing overlay for the middle line */
+.flashing-line {
+    position: absolute;
+    top: 50%; /* Center the line */
+    transform: translateY(-50%); /* Adjust to align perfectly in the center */
+    left: 0;
+    width: 100%;
+    height: calc(1 / 15 * 100%); /* Slim line height */
+    background: rgba(255, 105, 180, 0.6); /* Pink overlay */
+    display: none;
+    z-index: 2;
+    pointer-events: none;
+    box-shadow: 0 0 10px rgba(255, 105, 180, 0.8);
+    border: 2px solid rgba(255, 20, 147, 0.8);
+}
+
+
+.flashing-line.active {
+    display: block;
+    animation: flash 1s infinite;
+}
+
+@keyframes flash {
+    0%, 100% {
+        background: rgba(255, 105, 180, 0.3);
+    }
+    50% {
+        background: rgba(255, 105, 180, 0.7);
+    }
+}
+
+button {
+    padding: 10px 20px;
+    background: #fff;
+    color: #000;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+/* Button styles inside .button-reel */
+
+.button-reel button {
+    display: flex;
+    justify-content: space-between; /* Push content to the left and right edges */
+    align-items: center; /* Align text and emoji vertically */
+    background: rgba(255, 255, 255, 0.9);
+    color: #000;
+    padding: 10px 20px;
+    border: 2px solid #ff66b2;
+    border-radius: 5px;
+    width: 100%;
+    margin: 5px 0;
+    transition: background-color 0.3s, color 0.3s;
+    text-align: left; /* Ensure text aligns properly on the left */
+    font-size: 16px;
+    font-weight: bold;
+}
+
+
+/* Ensure emoji has proper spacing */
+.button-reel button span {
+    margin-left: auto; /* Push emoji to the far right */
+    padding-left: 10px; /* Add spacing between text and emoji */
+}
+.button-reel button {
+    background: rgba(255, 255, 255, 0.9);
+    color: #000;
+    padding: 10px 20px;
+    border: 2px solid #ff66b2;
+    border-radius: 5px;
+    width: 100%;
+    margin: 5px 0;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.button-reel button:hover {
+    background: #ffcce6;
+}
+
+.button-reel button:active {
+    background: #ff66b2;
+    color: #fff;
+}
+
+button.active {
+    background: #ff66b2;
+    color: white;
+}
+
+.highlight {
+    border: 3px solid pink;
+    border-radius: 5px;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    min-height: 500px;
+    min-width: 400px;
+    max-width: 90%;
+    max-height: 90%;
+    overflow-y: auto;
+}
+
+.modal-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Configuration Button */
+#openModal {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 120px;
+    height: 50px;
+    z-index: 9999;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.8);
+    color: #000;
+    border: 2px solid #ff66b2;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+    transition: all 0.3s ease-in-out;
+}
+
+#openModal:hover {
+    background: #ffcce6;
+    transform: scale(1.1);
+}
+
+#openModal:active {
+    background: #ff66b2;
+    color: #fff;
+}
+
+/* Win Options - Position dynamically with button-reel */
+.win-options {
+    position: absolute;
+    top: calc(385 / 1080 * 100%);
+    left: calc((360 / 1920 * 100%)); /* Align with .button-reel */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 100;
+    height: calc((995 - 485) / 1080 * 100%);
+    overflow-y: auto;
+}
+
+.win-option input {
+    width: 60px;
+    text-align: center;
+    margin-left: 10px;
+}
+
+.config-item {
+    display: flex;
+    justify-content: space-between; /* Ensures space between label and input group */
+    align-items: center;
+    padding: 5px 0;
+}
+
+.config-item label {
+    font-weight: bold;
+    flex: 1; /* Ensures the label takes available space */
+    text-align: left;
+}
+
+.config-item input {
+    width: 60px; /* Width of the number input */
+    text-align: center;
+    margin-left: 5px;
+}
+
+.config-item span {
+    white-space: nowrap; /* Keeps "wins % of spins" on the same line */
+    margin-left: 5px; /* Adds spacing between input and text */
+    flex: 0; /* Prevents span from stretching */
+}
+
+#spinButton {
+    position: absolute;
+    bottom: 10%; /* Place the button at the bottom of the game container */
+    left: 50%;
+    transform: translateX(-50%); /* Center horizontally */
+    padding: 10px 20px;
+    background: #fff;
+    color: #000;
+    font-size: 18px;
+    font-weight: bold;
+    border: 2px solid #ff66b2;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+    z-index: 100; /* Ensure it appears above other elements */
+}
+
+#spinButton:hover {
+    background: #ffcce6;
+    border-color: #ff66b2;
+    transform: translateX(-50%) scale(1.1);
+}
+
+#spinButton:active {
+    background: #ff66b2;
+    color: #fff;
+    border-color: #ff3385;
+    transform: translateX(-50%) scale(1.05);
+}
+
+
+.symbol-value {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    pointer-events: none;
+    display: none; /* Initially hidden */
+}
+
+.symbol.show-value .symbol-value {
+    display: block;
+}
+
+
+.symbol-values-container {
+    position: absolute;
+    top: calc(385 / 1080 * 100%);
+    left: calc(1440 / 1920 * 100%); /* Adjust based on the layout */
+    width: calc(150 / 1920 * 100%);
+    height: calc((995 - 485) / 1080 * 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.75);
+    border: 2px solid #ff66b2;
+    overflow-y: auto;
+    z-index: 10;
+    font-size: 1rem;
+    color: #000;
+    font-weight: bold;
+}
+
+.symbol-values-container img {
+    max-width: 60px;
+}
+
+.symbol-values-container hr {
+    width: 100%;
+}
+.symbol-value-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.symbol-value-item span {
+    margin-left: auto;
+    white-space: nowrap;
+}
+.symbol-value-item.flash {
+    animation: flash-bg 0.5s ease-in-out infinite;
+}
+
+@keyframes flash-bg {
+    0%, 100% {
+        background-color: transparent;
+    }
+    50% {
+        background-color: #ff66b2;
+    }
+}
+
+.winning-symbol-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+    pointer-events: none;
+}
+
+.winning-symbol-overlay h1 {
+    color: #ff66b2; /* Pink text */
+    font-size: 2rem;
+    background-color: white; /* White background */
+    padding: 10px 20px;
+    border-radius: 15px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional shadow for better visibility */
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+
+.winning-symbol-overlay img {
+    max-width: 14%;
+    max-height: 50%;
+    transition: max-width 1s ease, max-height 1s ease;
+}
+
+.winning-symbol-overlay img.grow {
+    max-width: 50%;
+    max-height: 80%;
+}

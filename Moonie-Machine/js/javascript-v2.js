@@ -167,11 +167,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const activeButton = buttons.find((btn) => btn.classList.contains('active'));
         let winningSymbol = null;
-
+        let symbolValuesToUse = null;
+        let symbolChancesToUse = null;
         if (activeButton) {
             const isBigSet = activeButton.id.includes('big');
-            const symbolChancesToUse = isBigSet ? symbolWinChanceBig : symbolWinChanceSmall;
-
+            symbolChancesToUse = isBigSet ? symbolWinChanceBig : symbolWinChanceSmall;
+            symbolValuesToUse = isBigSet ? symbolValuesBig : symbolValuesSmall;
             // Select a random weighted symbol
             winningSymbol = getRandomWeightedSymbol(symbolChancesToUse);
         }
@@ -338,6 +339,7 @@ function playSound(sound) {
 }
 
 function spinReel(reel, duration, winningSymbol) {
+    updateSymbolValues();
     const symbolsContainer = reel.querySelector('.symbols');
 
     // Determine which symbol set to use based on active button
@@ -401,7 +403,7 @@ function activateButton(buttonId) {
 
 // Function to render symbol values based on active button (big or small)
 function renderSymbolValues() {
-
+    updateSymbolValues();
     console.log("renderSymbolValues...");
 
     // Determine which set of symbol values to use (big or small) based on the active button

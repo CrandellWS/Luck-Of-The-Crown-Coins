@@ -1,185 +1,135 @@
+
+let spinSound;
+let stopSound;
+
+let openModalBtn;
+let configModal;
+let closeModalBtn;
+let spinButton;
+let showSymbolValuesCheck;
+
+let buttons;
+
+const symbolValuesBig = {
+    "./img/moon-2.png": 40,
+    "./img/crown.png": 35,
+    "./img/blue-gem.png": 30,
+    "./img/shooting-star.png": 25,
+    "./img/moon.png": 20,
+    "./img/pink-gem.png": 15,
+    "./img/star.png": 14,
+};
+
+const symbolValuesSmall = {
+    "./img/moon-2.png": 20,
+    "./img/crown.png": 15,
+    "./img/blue-gem.png": 10,
+    "./img/shooting-star.png": 7,
+    "./img/moon.png": 5,
+    "./img/pink-gem.png": 4,
+    "./img/star.png": 2,
+};
+
+const evenChance = 14.285714286;
+const symbolWinChanceBig = {
+    "./img/moon-2.png": evenChance,
+    "./img/crown.png": evenChance,
+    "./img/blue-gem.png": evenChance,
+    "./img/shooting-star.png": evenChance,
+    "./img/moon.png": evenChance,
+    "./img/pink-gem.png": evenChance,
+    "./img/star.png": evenChance,
+    "./img/loser.png": 0,
+};
+
+const symbolWinChanceSmall = {
+    "./img/moon-2.png": evenChance,
+    "./img/crown.png": evenChance,
+    "./img/blue-gem.png": evenChance,
+    "./img/shooting-star.png": evenChance,
+    "./img/moon.png": evenChance,
+    "./img/pink-gem.png": evenChance,
+    "./img/star.png": evenChance,
+    "./img/loser.png": 0,
+};
+
+const optionsMap = {
+    bigMoonieButton: { inputId: 'bigMoonieButton' },
+    smallMoonieButton: { inputId: 'smallMoonieButton' }
+};
+
+
 document.addEventListener('DOMContentLoaded', () => {
-    const spinSound = new Audio('audio/394101__deleted_user_6479820__single-swish-5.mp3');
-    const stopSound = new Audio('audio/202314__7778__click-1.mp3');
 
-    const openModalBtn = document.getElementById('openModal');
-    const configModal = document.getElementById('configModal');
-    const closeModalBtn = document.getElementById('closeModal');
-    const increaseWinCheck = document.getElementById('increaseWinCheck');
-    const winPercentageContainer = document.getElementById('winPercentageContainer');
-    const spinButton = document.getElementById('spinButton');
-    const showSymbolValuesCheck = document.getElementById('showSymbolValuesCheck');
+// Setting Big Values
+    document.getElementById('bigValueMoon2').value = symbolValuesBig["./img/moon-2.png"];
+    document.getElementById('bigWinPercentageMoon2').value = symbolWinChanceBig["./img/moon-2.png"];
 
-    const symbolValues = {
-        "./img/moon-2.png": 50,
-        "./img/crown.png": 25,
-        "./img/blue-gem.png": 20,
-        "./img/shooting-star.png": 15,
-        "./img/moon.png": 10,
-        "./img/pink-gem.png": 5,
-        "./img/star.png": 2,
-    };
+    document.getElementById('bigValueCrown').value = symbolValuesBig["./img/crown.png"];
+    document.getElementById('bigWinPercentageCrown').value = symbolWinChanceBig["./img/crown.png"];
 
-    document.getElementById('valueMoon').value = symbolValues["./img/moon.png"];
-    document.getElementById('valueStar').value = symbolValues["./img/star.png"];
-    document.getElementById('valuePinkGem').value = symbolValues["./img/pink-gem.png"];
-    document.getElementById('valueCrown').value = symbolValues["./img/crown.png"];
-    document.getElementById('valueMoon2').value = symbolValues["./img/moon-2.png"];
-    document.getElementById('valueBlueGem').value = symbolValues["./img/blue-gem.png"];
-    document.getElementById('valueShootingStar').value = symbolValues["./img/shooting-star.png"];
+    document.getElementById('bigValueBlueGem').value = symbolValuesBig["./img/blue-gem.png"];
+    document.getElementById('bigWinPercentageBlueGem').value = symbolWinChanceBig["./img/blue-gem.png"];
 
-    // Function to update symbol values from modal inputs
-    function updateSymbolValues() {
-        symbolValues["./img/moon.png"] = document.getElementById('valueMoon').value || "";
-        symbolValues["./img/star.png"] = document.getElementById('valueStar').value || "";
-        symbolValues["./img/pink-gem.png"] = document.getElementById('valuePinkGem').value || "";
-        symbolValues["./img/crown.png"] = document.getElementById('valueCrown').value || "";
-        symbolValues["./img/moon-2.png"] = document.getElementById('valueMoon2').value || "";
-        symbolValues["./img/blue-gem.png"] = document.getElementById('valueBlueGem').value || "";
-        symbolValues["./img/shooting-star.png"] = document.getElementById('valueShootingStar').value || "";
-    }
+    document.getElementById('bigValueShootingStar').value = symbolValuesBig["./img/shooting-star.png"];
+    document.getElementById('bigWinPercentageShootingStar').value = symbolWinChanceBig["./img/shooting-star.png"];
 
+    document.getElementById('bigValueMoon').value = symbolValuesBig["./img/moon.png"];
+    document.getElementById('bigWinPercentageMoon').value = symbolWinChanceBig["./img/moon.png"];
 
-    const optionsMap = {
-        gambleWithAshButton: { inputId: 'gambleWithAshInput' },
-        fullMoonButton: { inputId: 'fullMoonInput' },
-        halfMoonButton: { inputId: 'halfMoonInput' },
-        crescentMoonButton: { inputId: 'crescentMoonInput' },
-        newMoonButton: { inputId: 'newMoonInput' },
-        robInSpinsButton: { inputId: 'robInSpinsInput' },
-    };
+    document.getElementById('bigValuePinkGem').value = symbolValuesBig["./img/pink-gem.png"];
+    document.getElementById('bigWinPercentagePinkGem').value = symbolWinChanceBig["./img/pink-gem.png"];
 
-    const buttons = Object.keys(optionsMap)
+    document.getElementById('bigValueStar').value = symbolValuesBig["./img/star.png"];
+    document.getElementById('bigWinPercentageStar').value = symbolWinChanceBig["./img/star.png"];
+
+    document.getElementById('bigValueLoser').value = symbolValuesBig["./img/loser.png"];
+    document.getElementById('bigWinPercentageLoser').value = symbolWinChanceBig["./img/loser.png"];
+
+// Setting Small Values
+    document.getElementById('smallValueMoon2').value = symbolValuesSmall["./img/moon-2.png"];
+    document.getElementById('smallWinPercentageMoon2').value = symbolWinChanceSmall["./img/moon-2.png"];
+
+    document.getElementById('smallValueCrown').value = symbolValuesSmall["./img/crown.png"];
+    document.getElementById('smallWinPercentageCrown').value = symbolWinChanceSmall["./img/crown.png"];
+
+    document.getElementById('smallValueBlueGem').value = symbolValuesSmall["./img/blue-gem.png"];
+    document.getElementById('smallWinPercentageBlueGem').value = symbolWinChanceSmall["./img/blue-gem.png"];
+
+    document.getElementById('smallValueShootingStar').value = symbolValuesSmall["./img/shooting-star.png"];
+    document.getElementById('smallWinPercentageShootingStar').value = symbolWinChanceSmall["./img/shooting-star.png"];
+
+    document.getElementById('smallValueMoon').value = symbolValuesSmall["./img/moon.png"];
+    document.getElementById('smallWinPercentageMoon').value = symbolWinChanceSmall["./img/moon.png"];
+
+    document.getElementById('smallValuePinkGem').value = symbolValuesSmall["./img/pink-gem.png"];
+    document.getElementById('smallWinPercentagePinkGem').value = symbolWinChanceSmall["./img/pink-gem.png"];
+
+    document.getElementById('smallValueStar').value = symbolValuesSmall["./img/star.png"];
+    document.getElementById('smallWinPercentageStar').value = symbolWinChanceSmall["./img/star.png"];
+
+    document.getElementById('smallValueLoser').value = symbolValuesSmall["./img/loser.png"];
+    document.getElementById('smallWinPercentageLoser').value = symbolWinChanceSmall["./img/loser.png"];
+
+    // Assign values to the variables after DOM has loaded
+    spinSound = new Audio('audio/394101__deleted_user_6479820__single-swish-5.mp3');
+    stopSound = new Audio('audio/202314__7778__click-1.mp3');
+
+    openModalBtn = document.getElementById('openModal');
+    configModal = document.getElementById('configModal');
+    closeModalBtn = document.getElementById('closeModal');
+    spinButton = document.getElementById('spinButton');
+    showSymbolValuesCheck = document.getElementById('showSymbolValuesCheck');
+
+    buttons = Object.keys(optionsMap)
         .map((id) => document.getElementById(id))
         .filter((button) => button !== null);
-
-    // Generate symbols for a reel
-    function generateInitialSymbols(reel, numSymbols = 21) {
-        // renderSymbolValues();
-        const symbolsContainer = reel.querySelector('.symbols');
-        symbolsContainer.innerHTML = ''; // Clear existing symbols
-        const symbolKeys = Object.keys(symbolValues); // Get all symbol paths
-
-        for (let i = 0; i < numSymbols; i++) {
-            const newSymbol = document.createElement('div');
-            newSymbol.className = 'symbol';
-
-            const img = document.createElement('img');
-             // Select random symbol
-            img.src = symbolKeys[Math.floor(Math.random() * symbolKeys.length)];
-            newSymbol.appendChild(img);
-
-
-            symbolsContainer.appendChild(newSymbol);
-        }
-    }
-
-    // Play sound helper
-    function playSound(sound) {
-        try {
-            sound.currentTime = 0;
-            sound.play();
-        } catch (error) {
-            console.error("Error playing sound:", error);
-        }
-    }
-
-    function spinReel(reel, duration, isWinningSpin, winningSymbol) {
-
-        const symbolsContainer = reel.querySelector('.symbols');
-        const symbolKeys = Object.keys(symbolValues); // Get all symbol paths
-
-        // Reset position to align the reel seamlessly
-        symbolsContainer.style.transform = "translateY(0)";
-        symbolsContainer.style.transition = "none"; // Ensure no ongoing animation
-
-        const symbolHeight = symbolsContainer.firstElementChild
-            ? symbolsContainer.firstElementChild.offsetHeight
-            : 100; // Default fallback height
-
-        // Prepend new symbols for continuity during the spin
-        for (let i = 0; i < 3; i++) {
-            const newSymbol = document.createElement('div');
-            newSymbol.className = 'symbol';
-
-            const img = document.createElement('img');
-            img.src = symbolKeys[Math.floor(Math.random() * symbolKeys.length)];
-            newSymbol.appendChild(img);
-
-            symbolsContainer.insertBefore(newSymbol, symbolsContainer.firstChild);
-        }
-
-        // Remove excess symbols to maintain reel size
-        while (symbolsContainer.children.length > 21) {
-            symbolsContainer.removeChild(symbolsContainer.lastChild);
-        }
-
-        // Winning symbol logic
-        if (isWinningSpin && winningSymbol) {
-
-            const middleSymbol = symbolsContainer.children[1]; // Middle position
-            const img = middleSymbol.querySelector('img');
-            if (img) {
-                img.src = winningSymbol; // Assign winning symbol
-            }
-
-        }
-
-        // Begin the spin animation
-        playSound(spinSound);
-        symbolsContainer.style.transition = `transform ${duration}s ease-out`;
-        symbolsContainer.style.transform = `translateY(${symbolHeight * 18}px)`;
-
-        setTimeout(() => {
-            symbolsContainer.style.transition = "none";
-            playSound(stopSound);
-
-        }, duration * 1000);
-    }
 
     // Initialize reels with default symbols
     ["reel1", "reel2", "reel3"].forEach((id) => {
         const reel = document.getElementById(id);
         generateInitialSymbols(reel);
     });
-
-    // Activate a button
-    function activateButton(buttonId) {
-        // renderSymbolValues();
-        renderSymbolValues();
-        buttons.forEach((btn) => btn.classList.remove('active'));
-        const activeButton = document.getElementById(buttonId);
-        activeButton?.classList.add('active');
-    }
-
-    function renderSymbolValues() {
-        console.log("renderSymbolValues...");
-        updateSymbolValues();
-        const container = document.getElementById('symbolValuesContainerRight');
-        container.innerHTML = ''; // Clear previous content
-        const symbolKeys = Object.keys(symbolValues);
-
-        symbolKeys.forEach((symbolSrc) => {
-            const item = document.createElement('div');
-            item.className = 'symbol-value-item';
-
-            const hr = document.createElement('hr');
-
-            const img = document.createElement('img');
-            img.src = symbolSrc;
-
-            const valueText = document.createElement('span');
-            valueText.textContent = symbolValues[symbolSrc];
-
-            item.appendChild(img);
-            item.appendChild(hr);
-            item.appendChild(valueText);
-            container.appendChild(item);
-        });
-
-        // Set visibility based on the checkbox state
-        container.style.display = showSymbolValuesCheck.checked ? 'flex' : 'none';
-    }
 
     showSymbolValuesCheck.addEventListener('change', () => {
         const visibility = showSymbolValuesCheck.checked ? 'block' : 'none';
@@ -205,9 +155,6 @@ document.addEventListener('DOMContentLoaded', () => {
         configModal.style.display = 'none';
     });
 
-    increaseWinCheck.addEventListener('change', () => {
-        winPercentageContainer.style.display = increaseWinCheck.checked ? 'block' : 'none';
-    });
 
     showSymbolValuesCheck.addEventListener('change', () => {
         const container = document.getElementById('symbolValuesContainerRight');
@@ -215,40 +162,31 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     spinButton.addEventListener('click', () => {
+
         spinButton.disabled = true;
 
         const activeButton = buttons.find((btn) => btn.classList.contains('active'));
-        let winChance = 0;
-        let isWinningSpin = false;
         let winningSymbol = null;
 
-        const symbolKeys = Object.keys(symbolValues); // Get all symbol paths
-
         if (activeButton) {
-            const { inputId } = optionsMap[activeButton.id];
-            const inputElement = document.getElementById(inputId);
-            if (inputElement) {
-                winChance = parseInt(inputElement.value, 10) / 100;
-            }
+            const isBigSet = activeButton.id.includes('big');
+            const symbolChancesToUse = isBigSet ? symbolWinChanceBig : symbolWinChanceSmall;
 
-            isWinningSpin = Math.random() < winChance;
-
-            if (isWinningSpin) {
-                winningSymbol = symbolKeys[Math.floor(Math.random() * symbolKeys.length)];
-            }
+            // Select a random weighted symbol
+            winningSymbol = getRandomWeightedSymbol(symbolChancesToUse);
         }
 
+        // Spin the reels
         ["reel1", "reel2", "reel3"].forEach((id, index) => {
             const reel = document.getElementById(id);
-            spinReel(reel, 3 + index * 0.5, isWinningSpin, winningSymbol);
+            spinReel(reel, 3 + index * 0.5, winningSymbol);
         });
 
         setTimeout(() => {
             spinButton.disabled = false; // Re-enable after spin
 
-
             // Winning symbol logic
-            if (isWinningSpin && winningSymbol) {
+            if (winningSymbol) {
 
                 const winningItem = document.querySelector(
                     `.symbol-value-item img[src="${winningSymbol}"]`
@@ -265,7 +203,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Overlay winning symbol on the reels
                 const overlay = document.createElement('div');
                 overlay.className = 'winning-symbol-overlay';
-                const scVal = symbolValues[winningSymbol];
+                const scVal = symbolValuesToUse[winningSymbol]; // Use the correct symbol values (big or small)
+
                 // Create text above the image
                 const overlayText = document.createElement('h1');
                 overlayText.innerHTML = 'Win With Ash! <br> ' + scVal + ' SC';
@@ -290,9 +229,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 setTimeout(() => {
                     document.body.removeChild(overlay);
                 }, 4000); // 1 second growth + 3 seconds display
-
             }
-        }, 3*3*0.5*1000);
+        }, 3 * 3 * 0.5 * 1000);
     });
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -315,7 +253,212 @@ document.addEventListener('DOMContentLoaded', () => {
         renderSymbolValues();
     });
 
-    activateButton('newMoonButton'); // Set default active button
+    activateButton('smallMoonieButton'); // Set default active button
 });
 
 
+// Function to update symbol values and win percentages from modal inputs
+function updateSymbolValues() {
+    // Update Big Symbol Values and Win Percentages
+    symbolValuesBig["./img/moon-2.png"] = document.getElementById('bigValueMoon2').value || "";
+    symbolValuesBig["./img/crown.png"] = document.getElementById('bigValueCrown').value || "";
+    symbolValuesBig["./img/blue-gem.png"] = document.getElementById('bigValueBlueGem').value || "";
+    symbolValuesBig["./img/shooting-star.png"] = document.getElementById('bigValueShootingStar').value || "";
+    symbolValuesBig["./img/moon.png"] = document.getElementById('bigValueMoon').value || "";
+    symbolValuesBig["./img/pink-gem.png"] = document.getElementById('bigValuePinkGem').value || "";
+    symbolValuesBig["./img/star.png"] = document.getElementById('bigValueStar').value || "";
+
+    symbolWinChanceBig["./img/moon-2.png"] = document.getElementById('bigWinPercentageMoon2').value || "";
+    symbolWinChanceBig["./img/crown.png"] = document.getElementById('bigWinPercentageCrown').value || "";
+    symbolWinChanceBig["./img/blue-gem.png"] = document.getElementById('bigWinPercentageBlueGem').value || "";
+    symbolWinChanceBig["./img/shooting-star.png"] = document.getElementById('bigWinPercentageShootingStar').value || "";
+    symbolWinChanceBig["./img/moon.png"] = document.getElementById('bigWinPercentageMoon').value || "";
+    symbolWinChanceBig["./img/pink-gem.png"] = document.getElementById('bigWinPercentagePinkGem').value || "";
+    symbolWinChanceBig["./img/star.png"] = document.getElementById('bigWinPercentageStar').value || "";
+    symbolWinChanceBig["./img/loser.png"] = document.getElementById('bigWinPercentageLoser').value || ""; // Add for Big Loser
+
+    // Update Small Symbol Values and Win Percentages
+    symbolValuesSmall["./img/moon-2.png"] = document.getElementById('smallValueMoon2').value || "";
+    symbolValuesSmall["./img/crown.png"] = document.getElementById('smallValueCrown').value || "";
+    symbolValuesSmall["./img/blue-gem.png"] = document.getElementById('smallValueBlueGem').value || "";
+    symbolValuesSmall["./img/shooting-star.png"] = document.getElementById('smallValueShootingStar').value || "";
+    symbolValuesSmall["./img/moon.png"] = document.getElementById('smallValueMoon').value || "";
+    symbolValuesSmall["./img/pink-gem.png"] = document.getElementById('smallValuePinkGem').value || "";
+    symbolValuesSmall["./img/star.png"] = document.getElementById('smallValueStar').value || "";
+
+    symbolWinChanceSmall["./img/moon-2.png"] = document.getElementById('smallWinPercentageMoon2').value || "";
+    symbolWinChanceSmall["./img/crown.png"] = document.getElementById('smallWinPercentageCrown').value || "";
+    symbolWinChanceSmall["./img/blue-gem.png"] = document.getElementById('smallWinPercentageBlueGem').value || "";
+    symbolWinChanceSmall["./img/shooting-star.png"] = document.getElementById('smallWinPercentageShootingStar').value || "";
+    symbolWinChanceSmall["./img/moon.png"] = document.getElementById('smallWinPercentageMoon').value || "";
+    symbolWinChanceSmall["./img/pink-gem.png"] = document.getElementById('smallWinPercentagePinkGem').value || "";
+    symbolWinChanceSmall["./img/star.png"] = document.getElementById('smallWinPercentageStar').value || "";
+    symbolWinChanceSmall["./img/loser.png"] = document.getElementById('smallWinPercentageLoser').value || ""; // Add for Small Loser
+}
+
+
+// Generate symbols for a reel
+// Generate symbols for a reel
+function generateInitialSymbols(reel, numSymbols = 21) {
+    // Get the active button (to determine whether to use big or small symbols)
+    const activeButton = buttons.find((btn) => btn.classList.contains('active'));
+    const isBigSet = activeButton && activeButton.id.includes('big'); // Check if it's a "big" button
+
+    // Select symbol set based on active button
+    const symbolValuesToUse = isBigSet ? symbolValuesBig : symbolValuesSmall;
+
+    // Get all symbol paths from the selected symbol values
+    const symbolKeys = Object.keys(symbolValuesToUse);
+
+    // Get the symbols container inside the reel
+    const symbolsContainer = reel.querySelector('.symbols');
+    symbolsContainer.innerHTML = ''; // Clear existing symbols
+
+    for (let i = 0; i < numSymbols; i++) {
+        const newSymbol = document.createElement('div');
+        newSymbol.className = 'symbol';
+
+        const img = document.createElement('img');
+        // Select random symbol from the active set
+        img.src = symbolKeys[Math.floor(Math.random() * symbolKeys.length)];
+        newSymbol.appendChild(img);
+
+        symbolsContainer.appendChild(newSymbol);
+    }
+}
+
+// Play sound helper
+function playSound(sound) {
+    try {
+        sound.currentTime = 0;
+        sound.play();
+    } catch (error) {
+        console.error("Error playing sound:", error);
+    }
+}
+
+function spinReel(reel, duration, winningSymbol) {
+    const symbolsContainer = reel.querySelector('.symbols');
+
+    // Determine which symbol set to use based on active button
+    const activeButton = buttons.find((btn) => btn.classList.contains('active'));
+    const isBigSet = activeButton && activeButton.id.includes('big');
+    const symbolValuesToUse = isBigSet ? symbolValuesBig : symbolValuesSmall;
+    const symbolKeys = Object.keys(symbolValuesToUse); // Get all symbol paths for the correct set
+
+    // Reset position to align the reel seamlessly
+    symbolsContainer.style.transform = "translateY(0)";
+    symbolsContainer.style.transition = "none"; // Ensure no ongoing animation
+
+    const symbolHeight = symbolsContainer.firstElementChild
+        ? symbolsContainer.firstElementChild.offsetHeight
+        : 100; // Default fallback height
+
+    // Prepend new symbols for continuity during the spin
+    for (let i = 0; i < 3; i++) {
+        const newSymbol = document.createElement('div');
+        newSymbol.className = 'symbol';
+
+        const img = document.createElement('img');
+        img.src = symbolKeys[Math.floor(Math.random() * symbolKeys.length)];
+        newSymbol.appendChild(img);
+
+        symbolsContainer.insertBefore(newSymbol, symbolsContainer.firstChild);
+    }
+
+    // Remove excess symbols to maintain reel size
+    while (symbolsContainer.children.length > 21) {
+        symbolsContainer.removeChild(symbolsContainer.lastChild);
+    }
+
+    // Winning symbol logic
+    if (winningSymbol) {
+        const middleSymbol = symbolsContainer.children[1]; // Middle position
+        const img = middleSymbol.querySelector('img');
+        if (img) {
+            img.src = winningSymbol; // Assign winning symbol
+        }
+    }
+
+    // Begin the spin animation
+    playSound(spinSound);
+    symbolsContainer.style.transition = `transform ${duration}s ease-out`;
+    symbolsContainer.style.transform = `translateY(${symbolHeight * 18}px)`;
+
+    setTimeout(() => {
+        symbolsContainer.style.transition = "none";
+        playSound(stopSound);
+    }, duration * 1000);
+}
+
+// Activate a button
+function activateButton(buttonId) {
+    buttons.forEach((btn) => btn.classList.remove('active'));
+    const activeButton = document.getElementById(buttonId);
+    activeButton?.classList.add('active');
+    renderSymbolValues();
+}
+
+// Function to render symbol values based on active button (big or small)
+function renderSymbolValues() {
+
+    console.log("renderSymbolValues...");
+
+    // Determine which set of symbol values to use (big or small) based on the active button
+    const activeButton = buttons.find((btn) => btn.classList.contains('active'));
+
+    console.log("activeButton... " + activeButton );
+
+    const isBigSet = activeButton && activeButton.id.includes('big'); // Check if it's a "big" button
+
+    console.log("isBigSet... " + isBigSet );
+    // Select symbol values based on the active button (big or small)
+    const symbolValuesToRender = isBigSet ? symbolValuesBig : symbolValuesSmall;
+
+    // Update the symbol values container
+    const container = document.getElementById('symbolValuesContainerRight');
+    container.innerHTML = ''; // Clear previous content
+
+    const symbolKeys = Object.keys(symbolValuesToRender);
+
+    console.log("symbolValuesToRender... " + symbolValuesToRender);
+    console.log("symbolValuesBig... " + symbolValuesBig);
+    console.log("symbolValuesSmall... " + symbolValuesSmall);
+    console.log("symbolKeys... " + symbolKeys);
+    symbolKeys.forEach((symbolSrc) => {
+        console.log("symbolSrc... " + symbolSrc);
+        const item = document.createElement('div');
+        item.className = 'symbol-value-item';
+
+        const hr = document.createElement('hr');
+
+        const img = document.createElement('img');
+        img.src = symbolSrc;
+
+        const valueText = document.createElement('span');
+        valueText.textContent = symbolValuesToRender[symbolSrc];
+
+        item.appendChild(img);
+        item.appendChild(hr);
+        item.appendChild(valueText);
+        container.appendChild(item);
+    });
+
+    // Set visibility based on the checkbox state
+    container.style.display = showSymbolValuesCheck.checked ? 'flex' : 'none';
+}
+
+function getRandomWeightedSymbol(symbolWinChances) {
+    const weightedPool = [];
+
+    // Create a weighted pool based on win chances
+    for (const [symbol, chance] of Object.entries(symbolWinChances)) {
+        const weight = Math.floor(chance * 100); // Convert percentage to a whole number
+        for (let i = 0; i < weight; i++) {
+            weightedPool.push(symbol);
+        }
+    }
+
+    // Randomly select from the weighted pool
+    return weightedPool[Math.floor(Math.random() * weightedPool.length)];
+}

@@ -10,12 +10,8 @@
 <body>
 <div class="game-container">
     <div class="button-reel">
-        <button id="gambleWithAshButton">GambleWithAsh Spins</button>
-        <button id="fullMoonButton">Full Moon <span>🌕</span></button>
-        <button id="halfMoonButton">Half Moon <span>🌓</span></button>
-        <button id="crescentMoonButton">Crescent Moon <span>🌙</span></button>
-        <button id="newMoonButton">Black Hole <span>🌑</span></button>
-        <button id="robInSpinsButton">Rob-In-Spins</button>
+        <button id="bigMoonieButton">Big Moonie <span>🌕</span></button>
+        <button id="smallMoonieButton">Small Moonie <span>🌙</span></button>
     </div>
     <div class="reel" id="reel1">
         <div class="symbols"></div>
@@ -37,93 +33,148 @@
 <div id="configModal" class="modal">
     <div class="modal-content">
         <h2>Win Configuration</h2>
-        <div class="modal-section">
-            <label for="increaseWinCheck">
-                <input type="checkbox" id="increaseWinCheck" checked>
-                Increase Random Win Percentage
-            </label>
-        </div>
-        <div id="winPercentageContainer" class="modal-section">
-            <div class="config-item">
-                <label for="gambleWithAshInput">GambleWithAsh Spins:</label>
-                <div>
-                    wins <input type="number" id="gambleWithAshInput" value="100" min="0" max="100">
-                    <span>% of spins</span>
-                </div>
-            </div>
-            <div class="config-item">
-                <label for="fullMoonInput">🌕 Full Moon:</label>
-                <div>
-                    wins <input type="number" id="fullMoonInput" value="75" min="0" max="100">
-                    <span>% of spins</span>
-                </div>
-            </div>
-            <div class="config-item">
-                <label for="halfMoonInput">🌓 Half Moon:</label>
-                <div>
-                    wins <input type="number" id="halfMoonInput" value="50" min="0" max="100">
-                    <span>% of spins</span>
-                </div>
-            </div>
-            <div class="config-item">
-                <label for="crescentMoonInput">🌙 Crescent Moon:</label>
-                <div>
-                    wins <input type="number" id="crescentMoonInput" value="25" min="0" max="100">
-                    <span>% of spins</span>
-                </div>
-            </div>
-            <div class="config-item">
-                <label for="newMoonInput">🌑 Black Hole:</label>
-                <div>
-                    wins <input type="number" id="newMoonInput" value="10" min="0" max="100">
-                    <span>% of spins</span>
-                </div>
-            </div>
-            <div class="config-item">
-                <label for="robInSpinsInput">Rob-In-Spins:</label>
-                <div>
-                    wins <input type="number" id="robInSpinsInput" value="1" min="0" max="100">
-                    <span>% of spins</span>
-                </div>
-            </div>
-
-        </div>
 
         <label for="showSymbolValuesCheck">
             <input type="checkbox" id="showSymbolValuesCheck" checked>
             Show Symbol Values
         </label>
-        <h3>Symbol Values</h3>
-        <div id="symbolValuesContainer">
+        <h3>Big Symbol Values</h3>
+        <div id="bigSymbolValuesContainer">
             <div class="config-item">
-                <label for="valueMoon2">Crowned Moon:</label>
-                <input type="text" id="valueMoon2">
+                <label for="bigValueMoon2">Crowned Moon:</label>
+                <div>
+                    wins <input type="number" id="bigWinPercentageMoon2" value="1" min="0" max="100">
+                    <span>% of spins valued at</span>
+                </div>
+                <input type="text" id="bigValueMoon2"><span> value </span>
             </div>
             <div class="config-item">
-                <label for="valueCrown">Crown:</label>
-                <input type="text" id="valueCrown">
+                <label for="bigValueCrown">Crown:</label>
+                <div>
+                    wins <input type="number" id="bigWinPercentageCrown" value="1" min="0" max="100">
+                    <span>% of spins valued at</span>
+                </div>
+                <input type="text" id="bigValueCrown"><span> value </span>
             </div>
             <div class="config-item">
-                <label for="valueBlueGem">Blue Gem:</label>
-                <input type="text" id="valueBlueGem">
+                <label for="bigValueBlueGem">Blue Gem:</label>
+                <div>
+                    wins <input type="number" id="bigWinPercentageBlueGem" value="1" min="0" max="100">
+                    <span>% of spins valued at</span>
+                </div>
+                <input type="text" id="bigValueBlueGem"><span> value </span>
             </div>
             <div class="config-item">
-                <label for="valueShootingStar">Shooting Star:</label>
-                <input type="text" id="valueShootingStar">
+                <label for="bigValueShootingStar">Shooting Star:</label>
+                <div>
+                    wins <input type="number" id="bigWinPercentageShootingStar" value="1" min="0" max="100">
+                    <span>% of spins valued at</span>
+                </div>
+                <input type="text" id="bigValueShootingStar"><span> value </span>
             </div>
             <div class="config-item">
-                <label for="valueMoon">Moon:</label>
-                <input type="text" id="valueMoon">
+                <label for="bigValueMoon">Moon:</label>
+                <div>
+                    wins <input type="number" id="bigWinPercentageMoon" value="1" min="0" max="100">
+                    <span>% of spins valued at</span>
+                </div>
+                <input type="text" id="bigValueMoon"><span> value </span>
             </div>
             <div class="config-item">
-                <label for="valuePinkGem">Pink Gem:</label>
-                <input type="text" id="valuePinkGem">
+                <label for="bigValuePinkGem">Pink Gem:</label>
+                <div>
+                    wins <input type="number" id="bigWinPercentagePinkGem" value="1" min="0" max="100">
+                    <span>% of spins valued at</span>
+                </div>
+                <input type="text" id="bigValuePinkGem"><span> value </span>
             </div>
             <div class="config-item">
-                <label for="valueStar">Star:</label>
-                <input type="text" id="valueStar">
+                <label for="bigValueStar">Star:</label>
+                <div>
+                    wins <input type="number" id="bigWinPercentageStar" value="1" min="0" max="100">
+                    <span>% of spins valued at</span>
+                </div>
+                <input type="text" id="bigValueStar"><span> value </span>
+            </div>
+            <div class="config-item">
+                <label for="bigValueLoser">Loser:</label>
+                <div>
+                    wins <input type="number" id="bigWinPercentageLoser" value="0" min="0" max="100">
+                    <span>% of spins valued at</span>
+                </div>
+                <input type="text" id="bigValueLoser"><span> value </span>
             </div>
         </div>
+
+        <h3>Small Symbol Values</h3>
+        <div id="smallSymbolValuesContainer">
+            <div class="config-item">
+                <label for="smallValueMoon2">Crowned Moon:</label>
+                <div>
+                    wins <input type="number" id="smallWinPercentageMoon2" value="1" min="0" max="100">
+                    <span>% of spins valued at</span>
+                </div>
+                <input type="text" id="smallValueMoon2"><span> value </span>
+            </div>
+            <div class="config-item">
+                <label for="smallValueCrown">Crown:</label>
+                <div>
+                    wins <input type="number" id="smallWinPercentageCrown" value="1" min="0" max="100">
+                    <span>% of spins valued at</span>
+                </div>
+                <input type="text" id="smallValueCrown"><span> value </span>
+            </div>
+            <div class="config-item">
+                <label for="smallValueBlueGem">Blue Gem:</label>
+                <div>
+                    wins <input type="number" id="smallWinPercentageBlueGem" value="1" min="0" max="100">
+                    <span>% of spins valued at</span>
+                </div>
+                <input type="text" id="smallValueBlueGem"><span> value </span>
+            </div>
+            <div class="config-item">
+                <label for="smallValueShootingStar">Shooting Star:</label>
+                <div>
+                    wins <input type="number" id="smallWinPercentageShootingStar" value="1" min="0" max="100">
+                    <span>% of spins valued at</span>
+                </div>
+                <input type="text" id="smallValueShootingStar"><span> value </span>
+            </div>
+            <div class="config-item">
+                <label for="smallValueMoon">Moon:</label>
+                <div>
+                    wins <input type="number" id="smallWinPercentageMoon" value="1" min="0" max="100">
+                    <span>% of spins valued at</span>
+                </div>
+                <input type="text" id="smallValueMoon"><span> value </span>
+            </div>
+            <div class="config-item">
+                <label for="smallValuePinkGem">Pink Gem:</label>
+                <div>
+                    wins <input type="number" id="smallWinPercentagePinkGem" value="1" min="0" max="100">
+                    <span>% of spins valued at</span>
+                </div>
+                <input type="text" id="smallValuePinkGem"><span> value </span>
+            </div>
+            <div class="config-item">
+                <label for="smallValueStar">Star:</label>
+                <div>
+                    wins <input type="number" id="smallWinPercentageStar" value="1" min="0" max="100">
+                    <span>% of spins valued at</span>
+                </div>
+                <input type="text" id="smallValueStar"><span> value </span>
+            </div>
+            <div class="config-item">
+                <label for="smallValueLoser">Loser:</label>
+                <div>
+                    wins <input type="number" id="smallWinPercentageLoser" value="0" min="0" max="100">
+                    <span>% of spins valued at</span>
+                </div>
+                <input type="text" id="smallValueLoser"><span> value </span>
+            </div>
+        </div>
+
+
         <button id="closeModal">Close</button>
     </div>
 </div>

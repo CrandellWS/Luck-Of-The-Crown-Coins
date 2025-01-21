@@ -231,7 +231,7 @@ button.active {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 1000;
     min-height: 500px;
-    min-width: 400px;
+    min-width: 500px;
     max-width: 90%;
     max-height: 90%;
     overflow-y: auto;
@@ -454,4 +454,8 @@ button.active {
 .winning-symbol-overlay img.grow {
     max-width: 50%;
     max-height: 80%;
+}
+
+h3 {
+    margin: 1em 0 0;
 }

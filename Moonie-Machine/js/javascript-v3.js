@@ -238,6 +238,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Check if the winning symbol is "Rob's Bonus" and open the game modal
                     if (winningSymbol === "./img/rob.gif") {
                         openGameModal();
+
+                        document.getElementById("totalScore").textContent = `Total: 0 SC`;
                     }
                 }, 4000); // 1 second growth + 3 seconds display
             }

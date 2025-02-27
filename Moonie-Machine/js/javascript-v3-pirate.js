@@ -64,54 +64,54 @@ const optionsMap = {
 document.addEventListener('DOMContentLoaded', () => {
 
 // Setting Big Values
-    document.getElementById('bigValueMoon2').value = symbolValuesBig["./img/moon-2.png"];
-    document.getElementById('bigWinPercentageMoon2').value = symbolWinChanceBig["./img/moon-2.png"];
+    document.getElementById('bigValueMoon2').value = symbolValuesBig["./img/pink-diamond.png"];
+    document.getElementById('bigWinPercentageMoon2').value = symbolWinChanceBig["./img/pink-diamond.png"];
 
-    document.getElementById('bigValueCrown').value = symbolValuesBig["./img/crown.png"];
-    document.getElementById('bigWinPercentageCrown').value = symbolWinChanceBig["./img/crown.png"];
+    document.getElementById('bigValueCrown').value = symbolValuesBig["./img/pirate-crown.png"];
+    document.getElementById('bigWinPercentageCrown').value = symbolWinChanceBig["./img/pirate-crown.png"];
 
-    document.getElementById('bigValueBlueGem').value = symbolValuesBig["./img/blue-gem.png"];
-    document.getElementById('bigWinPercentageBlueGem').value = symbolWinChanceBig["./img/blue-gem.png"];
+    document.getElementById('bigValueBlueGem').value = symbolValuesBig["./img/ruby-ring.png"];
+    document.getElementById('bigWinPercentageBlueGem').value = symbolWinChanceBig["./img/ruby-ring.png"];
 
-    document.getElementById('bigValueShootingStar').value = symbolValuesBig["./img/shooting-star.png"];
-    document.getElementById('bigWinPercentageShootingStar').value = symbolWinChanceBig["./img/shooting-star.png"];
+    document.getElementById('bigValueShootingStar').value = symbolValuesBig["./img/pink-pirate-hat.png"];
+    document.getElementById('bigWinPercentageShootingStar').value = symbolWinChanceBig["./img/pink-pirate-hat.png"];
 
-    document.getElementById('bigValueMoon').value = symbolValuesBig["./img/moon.png"];
-    document.getElementById('bigWinPercentageMoon').value = symbolWinChanceBig["./img/moon.png"];
+    document.getElementById('bigValueMoon').value = symbolValuesBig["./img/gold-coin.png"];
+    document.getElementById('bigWinPercentageMoon').value = symbolWinChanceBig["./img/gold-coin.png"];
 
-    document.getElementById('bigValuePinkGem').value = symbolValuesBig["./img/pink-gem.png"];
-    document.getElementById('bigWinPercentagePinkGem').value = symbolWinChanceBig["./img/pink-gem.png"];
+    document.getElementById('bigValuePinkGem').value = symbolValuesBig["./img/silver-coin.png"];
+    document.getElementById('bigWinPercentagePinkGem').value = symbolWinChanceBig["./img/silver-coin.png"];
 
-    document.getElementById('bigValueStar').value = symbolValuesBig["./img/star.png"];
-    document.getElementById('bigWinPercentageStar').value = symbolWinChanceBig["./img/star.png"];
+    document.getElementById('bigValueStar').value = symbolValuesBig["./img/copper-coin.png"];
+    document.getElementById('bigWinPercentageStar').value = symbolWinChanceBig["./img/copper-coin.png"];
 
-    document.getElementById('bigValueRob').value = symbolValuesBig["./img/rob.gif"];
-    document.getElementById('bigWinPercentageRob').value = symbolWinChanceBig["./img/rob.gif"];
+    document.getElementById('bigValueRob').value = symbolValuesBig["./img/chest-closed.png"];
+    document.getElementById('bigWinPercentageRob').value = symbolWinChanceBig["./img/chest-closed.png"];
 
 // Setting Small Values
-    document.getElementById('smallValueMoon2').value = symbolValuesSmall["./img/moon-2.png"];
-    document.getElementById('smallWinPercentageMoon2').value = symbolWinChanceSmall["./img/moon-2.png"];
+    document.getElementById('smallValueMoon2').value = symbolValuesSmall["./img/pink-diamond.png"];
+    document.getElementById('smallWinPercentageMoon2').value = symbolWinChanceSmall["./img/pink-diamond.png"];
 
-    document.getElementById('smallValueCrown').value = symbolValuesSmall["./img/crown.png"];
-    document.getElementById('smallWinPercentageCrown').value = symbolWinChanceSmall["./img/crown.png"];
+    document.getElementById('smallValueCrown').value = symbolValuesSmall["./img/pirate-crown.png"];
+    document.getElementById('smallWinPercentageCrown').value = symbolWinChanceSmall["./img/pirate-crown.png"];
 
-    document.getElementById('smallValueBlueGem').value = symbolValuesSmall["./img/blue-gem.png"];
-    document.getElementById('smallWinPercentageBlueGem').value = symbolWinChanceSmall["./img/blue-gem.png"];
+    document.getElementById('smallValueBlueGem').value = symbolValuesSmall["./img/ruby-ring.png"];
+    document.getElementById('smallWinPercentageBlueGem').value = symbolWinChanceSmall["./img/ruby-ring.png"];
 
-    document.getElementById('smallValueShootingStar').value = symbolValuesSmall["./img/shooting-star.png"];
-    document.getElementById('smallWinPercentageShootingStar').value = symbolWinChanceSmall["./img/shooting-star.png"];
+    document.getElementById('smallValueShootingStar').value = symbolValuesSmall["./img/pink-pirate-hat.png"];
+    document.getElementById('smallWinPercentageShootingStar').value = symbolWinChanceSmall["./img/pink-pirate-hat.png"];
 
-    document.getElementById('smallValueMoon').value = symbolValuesSmall["./img/moon.png"];
-    document.getElementById('smallWinPercentageMoon').value = symbolWinChanceSmall["./img/moon.png"];
+    document.getElementById('smallValueMoon').value = symbolValuesSmall["./img/gold-coin.png"];
+    document.getElementById('smallWinPercentageMoon').value = symbolWinChanceSmall["./img/gold-coin.png"];
 
-    document.getElementById('smallValuePinkGem').value = symbolValuesSmall["./img/pink-gem.png"];
-    document.getElementById('smallWinPercentagePinkGem').value = symbolWinChanceSmall["./img/pink-gem.png"];
+    document.getElementById('smallValuePinkGem').value = symbolValuesSmall["./img/silver-coin.png"];
+    document.getElementById('smallWinPercentagePinkGem').value = symbolWinChanceSmall["./img/silver-coin.png"];
 
-    document.getElementById('smallValueStar').value = symbolValuesSmall["./img/star.png"];
-    document.getElementById('smallWinPercentageStar').value = symbolWinChanceSmall["./img/star.png"];
+    document.getElementById('smallValueStar').value = symbolValuesSmall["./img/copper-coin.png"];
+    document.getElementById('smallWinPercentageStar').value = symbolWinChanceSmall["./img/copper-coin.png"];
 
-    document.getElementById('smallValueRob').value = symbolValuesSmall["./img/rob.gif"];
-    document.getElementById('smallWinPercentageRob').value = symbolWinChanceSmall["./img/rob.gif"];
+    document.getElementById('smallValueRob').value = symbolValuesSmall["./img/chest-closed.png"];
+    document.getElementById('smallWinPercentageRob').value = symbolWinChanceSmall["./img/chest-closed.png"];
 
     // Assign values to the variables after DOM has loaded
     spinSound = new Audio('audio/394101__deleted_user_6479820__single-swish-5.mp3');
@@ -236,7 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.body.removeChild(overlay);
 
                     // Check if the winning symbol is "Rob's Bonus" and open the game modal
-                    if (winningSymbol === "./img/rob.gif") {
+                    if (winningSymbol === "./img/chest-closed.png") {
                         openGameModal();
 
                         document.getElementById("totalScore").textContent = `Total: 0 SC`;
@@ -276,42 +276,42 @@ document.addEventListener('DOMContentLoaded', () => {
 // Function to update symbol values and win percentages from modal inputs
 function updateSymbolValues() {
     // Update Big Symbol Values and Win Percentages
-    symbolValuesBig["./img/moon-2.png"] = document.getElementById('bigValueMoon2').value || "";
-    symbolValuesBig["./img/crown.png"] = document.getElementById('bigValueCrown').value || "";
-    symbolValuesBig["./img/blue-gem.png"] = document.getElementById('bigValueBlueGem').value || "";
-    symbolValuesBig["./img/shooting-star.png"] = document.getElementById('bigValueShootingStar').value || "";
-    symbolValuesBig["./img/moon.png"] = document.getElementById('bigValueMoon').value || "";
-    symbolValuesBig["./img/pink-gem.png"] = document.getElementById('bigValuePinkGem').value || "";
-    symbolValuesBig["./img/star.png"] = document.getElementById('bigValueStar').value || "";
-    symbolValuesBig["./img/rob.gif"] = document.getElementById('bigValueRob').value || "";
+    symbolValuesBig["./img/pink-diamond.png"] = document.getElementById('bigValueMoon2').value || "";
+    symbolValuesBig["./img/pirate-crown.png"] = document.getElementById('bigValueCrown').value || "";
+    symbolValuesBig["./img/ruby-ring.png"] = document.getElementById('bigValueBlueGem').value || "";
+    symbolValuesBig["./img/pink-pirate-hat.png"] = document.getElementById('bigValueShootingStar').value || "";
+    symbolValuesBig["./img/gold-coin.png"] = document.getElementById('bigValueMoon').value || "";
+    symbolValuesBig["./img/silver-coin.png"] = document.getElementById('bigValuePinkGem').value || "";
+    symbolValuesBig["./img/copper-coin.png"] = document.getElementById('bigValueStar').value || "";
+    symbolValuesBig["./img/chest-closed.png"] = document.getElementById('bigValueRob').value || "";
 
-    symbolWinChanceBig["./img/moon-2.png"] = document.getElementById('bigWinPercentageMoon2').value || "";
-    symbolWinChanceBig["./img/crown.png"] = document.getElementById('bigWinPercentageCrown').value || "";
-    symbolWinChanceBig["./img/blue-gem.png"] = document.getElementById('bigWinPercentageBlueGem').value || "";
-    symbolWinChanceBig["./img/shooting-star.png"] = document.getElementById('bigWinPercentageShootingStar').value || "";
-    symbolWinChanceBig["./img/moon.png"] = document.getElementById('bigWinPercentageMoon').value || "";
-    symbolWinChanceBig["./img/pink-gem.png"] = document.getElementById('bigWinPercentagePinkGem').value || "";
-    symbolWinChanceBig["./img/star.png"] = document.getElementById('bigWinPercentageStar').value || "";
-    symbolWinChanceBig["./img/rob.gif"] = document.getElementById('bigWinPercentageRob').value || "";
+    symbolWinChanceBig["./img/pink-diamond.png"] = document.getElementById('bigWinPercentageMoon2').value || "";
+    symbolWinChanceBig["./img/pirate-crown.png"] = document.getElementById('bigWinPercentageCrown').value || "";
+    symbolWinChanceBig["./img/ruby-ring.png"] = document.getElementById('bigWinPercentageBlueGem').value || "";
+    symbolWinChanceBig["./img/pink-pirate-hat.png"] = document.getElementById('bigWinPercentageShootingStar').value || "";
+    symbolWinChanceBig["./img/gold-coin.png"] = document.getElementById('bigWinPercentageMoon').value || "";
+    symbolWinChanceBig["./img/silver-coin.png"] = document.getElementById('bigWinPercentagePinkGem').value || "";
+    symbolWinChanceBig["./img/copper-coin.png"] = document.getElementById('bigWinPercentageStar').value || "";
+    symbolWinChanceBig["./img/chest-closed.png"] = document.getElementById('bigWinPercentageRob').value || "";
 
     // Update Small Symbol Values and Win Percentages
-    symbolValuesSmall["./img/moon-2.png"] = document.getElementById('smallValueMoon2').value || "";
-    symbolValuesSmall["./img/crown.png"] = document.getElementById('smallValueCrown').value || "";
-    symbolValuesSmall["./img/blue-gem.png"] = document.getElementById('smallValueBlueGem').value || "";
-    symbolValuesSmall["./img/shooting-star.png"] = document.getElementById('smallValueShootingStar').value || "";
-    symbolValuesSmall["./img/moon.png"] = document.getElementById('smallValueMoon').value || "";
-    symbolValuesSmall["./img/pink-gem.png"] = document.getElementById('smallValuePinkGem').value || "";
-    symbolValuesSmall["./img/star.png"] = document.getElementById('smallValueStar').value || "";
-    symbolValuesSmall["./img/rob.gif"] = document.getElementById('smallValueRob').value || "";
+    symbolValuesSmall["./img/pink-diamond.png"] = document.getElementById('smallValueMoon2').value || "";
+    symbolValuesSmall["./img/pirate-crown.png"] = document.getElementById('smallValueCrown').value || "";
+    symbolValuesSmall["./img/ruby-ring.png"] = document.getElementById('smallValueBlueGem').value || "";
+    symbolValuesSmall["./img/pink-pirate-hat.png"] = document.getElementById('smallValueShootingStar').value || "";
+    symbolValuesSmall["./img/gold-coin.png"] = document.getElementById('smallValueMoon').value || "";
+    symbolValuesSmall["./img/silver-coin.png"] = document.getElementById('smallValuePinkGem').value || "";
+    symbolValuesSmall["./img/copper-coin.png"] = document.getElementById('smallValueStar').value || "";
+    symbolValuesSmall["./img/chest-closed.png"] = document.getElementById('smallValueRob').value || "";
 
-    symbolWinChanceSmall["./img/moon-2.png"] = document.getElementById('smallWinPercentageMoon2').value || "";
-    symbolWinChanceSmall["./img/crown.png"] = document.getElementById('smallWinPercentageCrown').value || "";
-    symbolWinChanceSmall["./img/blue-gem.png"] = document.getElementById('smallWinPercentageBlueGem').value || "";
-    symbolWinChanceSmall["./img/shooting-star.png"] = document.getElementById('smallWinPercentageShootingStar').value || "";
-    symbolWinChanceSmall["./img/moon.png"] = document.getElementById('smallWinPercentageMoon').value || "";
-    symbolWinChanceSmall["./img/pink-gem.png"] = document.getElementById('smallWinPercentagePinkGem').value || "";
-    symbolWinChanceSmall["./img/star.png"] = document.getElementById('smallWinPercentageStar').value || "";
-    symbolWinChanceSmall["./img/rob.gif"] = document.getElementById('smallWinPercentageRob').value || "";
+    symbolWinChanceSmall["./img/pink-diamond.png"] = document.getElementById('smallWinPercentageMoon2').value || "";
+    symbolWinChanceSmall["./img/pirate-crown.png"] = document.getElementById('smallWinPercentageCrown').value || "";
+    symbolWinChanceSmall["./img/ruby-ring.png"] = document.getElementById('smallWinPercentageBlueGem').value || "";
+    symbolWinChanceSmall["./img/pink-pirate-hat.png"] = document.getElementById('smallWinPercentageShootingStar').value || "";
+    symbolWinChanceSmall["./img/gold-coin.png"] = document.getElementById('smallWinPercentageMoon').value || "";
+    symbolWinChanceSmall["./img/silver-coin.png"] = document.getElementById('smallWinPercentagePinkGem').value || "";
+    symbolWinChanceSmall["./img/copper-coin.png"] = document.getElementById('smallWinPercentageStar').value || "";
+    symbolWinChanceSmall["./img/chest-closed.png"] = document.getElementById('smallWinPercentageRob').value || "";
 }
 
 
@@ -453,7 +453,7 @@ function renderSymbolValues() {
     symbolKeys.forEach((symbolSrc) => {
         console.log("symbolSrc... " + symbolSrc);
 
-        if(symbolSrc === "./img/rob.gif")
+        if(symbolSrc === "./img/chest-closed.png")
             return;
 
         const item = document.createElement('div');

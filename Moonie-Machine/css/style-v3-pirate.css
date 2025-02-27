@@ -193,21 +193,21 @@ label {
     top: calc(420 / 1080 * 100%);
     left: calc(603 / 1920 * 100%);
     width: calc(209 / 1920 * 100%);
-    height: calc((995 - 485) / 1080 * 100%);
+    height: calc((1001 - 485) / 1080 * 100%);
 }
 
 #reel2 {
     top: calc(420 / 1080 * 100%);
     left: calc(853 / 1920 * 100%);
     width: calc(209 / 1920 * 100%);
-    height: calc((995 - 485) / 1080 * 100%);
+    height: calc((1001 - 485) / 1080 * 100%);
 }
 
 #reel3 {
     top: calc(420 / 1080 * 100%);
     left: calc(1104 / 1920 * 100%);
     width: calc(209 / 1920 * 100%);
-    height: calc((995 - 485) / 1080 * 100%);
+    height: calc((1001 - 485) / 1080 * 100%);
 }
 
 .button-reel {
@@ -215,7 +215,7 @@ label {
     /*left: calc(230 / 1920 * 100%);*/
     left: 0;
     width: calc(230 / 1920 * 100%);
-    height: calc((995 - 485) / 1080 * 100%);
+    height: calc((1001 - 485) / 1080 * 100%);
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;

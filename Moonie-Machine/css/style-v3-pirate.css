@@ -631,3 +631,13 @@ button.active {
 h3 {
     margin: 1em 0 0;
 }
+
+.prize-config-wrapper {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.prize-column {
+    flex: 1;
+}

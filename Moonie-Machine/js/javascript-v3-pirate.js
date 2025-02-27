@@ -503,20 +503,17 @@ function getRandomWeightedSymbol(symbolWinChances) {
 
 
 function initLuckOfTheCrownsGame() {
-    function shuffle(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
-        return array;
-    }
-
     function openGameModal() {
         document.getElementById('gameModal').style.display = 'block';
 
+        const activeButton = document.querySelector('.button-reel .active');
+        const isBigSet = activeButton && activeButton.id.includes('big');
+
         const newPrizes = [];
         for (let i = 0; i < 20; i++) {
-            newPrizes.push(parseFloat(document.getElementById(`prize${i}`).value) || 0);
+            const prizeInputId = isBigSet ? `bigPrize${i}` : `smallPrize${i}`;
+            console.log("prizeInputId: " + prizeInputId);
+            newPrizes.push(parseFloat(document.getElementById(prizeInputId).value) || 0);
         }
         generateGameBoxes(newPrizes);
     }
@@ -525,16 +522,13 @@ function initLuckOfTheCrownsGame() {
         document.getElementById('gameModal').style.display = 'none';
     }
 
-
     function generateGameBoxes(prizes) {
         const boxContainer = document.getElementById('box-container');
         boxContainer.innerHTML = '';
         const losingPicks = parseInt(document.getElementById('losingPicks').value) || 0;
 
-        console.log(prizes)
         let shuffledPrizes = [...prizes].sort(() => Math.random() - 0.5);
 
-        // Replace some values with broken-moon images
         for (let i = 0; i < losingPicks; i++) {
             shuffledPrizes[i] = "broken-moon.png";
         }
@@ -559,7 +553,7 @@ function initLuckOfTheCrownsGame() {
                         totalScore += prize;
                         document.getElementById("totalScore").textContent = `Total: ${totalScore.toFixed(0)} SC`;
 
-                        var innerHTML = `<img src="./img/chest-open.png" alt="Losing Pick" width="100%">`;
+                        var innerHTML = `<img src="./img/chest-open.png" alt="Winning Pick" width="100%">`;
                         innerHTML += `<div class="luck-crowns-box-win-amount">${prizeText}</div>`;
                         box.innerHTML = innerHTML;
                     }
@@ -570,34 +564,52 @@ function initLuckOfTheCrownsGame() {
         });
     }
 
-    // Expose functions to global scope if needed
+    // Expose functions to global scope
     window.openGameModal = openGameModal;
     window.closeGameModal = closeGameModal;
     window.generateGameBoxes = generateGameBoxes;
 
+    const bigPrizeValues = [2, 2, 2, 2, 2, 2, 4, 4, 4, 4, 4, 5, 5, 5, 5, 10, 10, 10, 15, 15];
+    const smallPrizeValues = [1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 4, 4, 4, 4, 5, 5, 5, 10, 10];
 
-    const prizeValues = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 4, 5, 5, 10];
     const prizesContainer = document.getElementById("prizesContainer");
+    const prizeConfigWrapper = document.createElement("div");
+    prizeConfigWrapper.classList.add("prize-config-wrapper");
 
-    // Generate 20 input fields for prize values
-    prizeValues.forEach((value, index) => {
+    const bigPrizesDiv = document.createElement("div");
+    bigPrizesDiv.classList.add("prize-column");
+    bigPrizesDiv.innerHTML = `<h3>Big Prizes</h3>`;
+
+    const smallPrizesDiv = document.createElement("div");
+    smallPrizesDiv.classList.add("prize-column");
+    smallPrizesDiv.innerHTML = `<h3>Small Prizes</h3>`;
+
+    // Generate 20 input fields for big and small prize values
+    bigPrizeValues.forEach((value, index) => {
         const div = document.createElement("div");
         div.classList.add("config-item");
         div.innerHTML = `
-                <label for="prize${index}">Prize ${index + 1}:</label>
-                <input type="number" id="prize${index}" value="${value}" step="0.01" min="0">
-            `;
-        prizesContainer.appendChild(div);
+            <label for="bigPrize${index}">Big Prize ${index + 1}:</label>
+            <input type="number" id="bigPrize${index}" value="${value}" step="0.01" min="0">
+        `;
+        bigPrizesDiv.appendChild(div);
     });
 
+    smallPrizeValues.forEach((value, index) => {
+        const div = document.createElement("div");
+        div.classList.add("config-item");
+        div.innerHTML = `
+            <label for="smallPrize${index}">Small Prize ${index + 1}:</label>
+            <input type="number" id="smallPrize${index}" value="${value}" step="0.01" min="0">
+        `;
+        smallPrizesDiv.appendChild(div);
+    });
+
+    prizeConfigWrapper.appendChild(bigPrizesDiv);
+    prizeConfigWrapper.appendChild(smallPrizesDiv);
+    prizesContainer.appendChild(prizeConfigWrapper);
 
     document.getElementById("saveBonusConfig").addEventListener("click", function () {
-        const newPrizes = [];
-        for (let i = 0; i < 20; i++) {
-            newPrizes.push(parseFloat(document.getElementById(`prize${i}`).value) || 0);
-        }
-        generateGameBoxes(newPrizes);
         document.getElementById('bonusConfigModal').style.display = 'none';
     });
-
 }

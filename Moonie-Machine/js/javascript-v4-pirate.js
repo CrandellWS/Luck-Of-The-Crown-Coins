@@ -169,6 +169,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     spinButton.addEventListener('click', () => {
 
+        const isBigSet = document.querySelector('.button-reel .active')?.id.includes('big');
+
+        if (isBigSet) {
+            const totalWinChanceBig = Object.values(symbolWinChanceBig).reduce((sum, value) => sum + value, 0);
+            if(totalWinChanceBig < 1 )
+            {
+                alert("No More Items Left Big")
+                return;
+            }
+        }
+        else
+        {
+            const totalWinChanceSmall = Object.values(symbolWinChanceSmall).reduce((sum, value) => sum + value, 0);
+            if(totalWinChanceSmall < 1 )
+            {
+                alert("No More Items Left Small")
+                return;
+            }
+
+        }
+
         spinButton.disabled = true;
 
         const activeButton = buttons.find((btn) => btn.classList.contains('active'));
@@ -211,7 +232,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Reduce the count of the winning item from the correct set
                 if (winningSymbol && consumeItemsEnabled) {
-                    const isBigSet = document.querySelector('.button-reel .active')?.id.includes('big');
 
                     if (isBigSet) {
                         if (symbolWinChanceBig[winningSymbol] > 0) {
@@ -222,6 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             symbolWinChanceSmall[winningSymbol] -= 1;
                         }
                     }
+                    updateInputValues();
 
                     console.log(`Updated chances: ${winningSymbol} -> Big: ${symbolWinChanceBig[winningSymbol]}, Small: ${symbolWinChanceSmall[winningSymbol]}`);
                 }

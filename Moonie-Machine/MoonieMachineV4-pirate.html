@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Slot Game</title>
-    <script src="js/javascript-v3-pirate.js?v13"></script>
-    <link rel="stylesheet" href="css/style-v3-pirate.css?v13" type="text/css">
+    <script src="js/javascript-v4-pirate.js?v14"></script>
+    <link rel="stylesheet" href="css/style-v4-pirate.css?v14" type="text/css">
     <link rel="icon" type="image/png" href="./img/chest-closed.png">
 </head>
 <body>
@@ -52,139 +52,145 @@
             <input type="checkbox" id="showSymbolValuesCheck" checked>
             Show Symbol Values
         </label>
+
+        <label for="consumeItemsCheck">
+            <input type="checkbox" id="consumeItemsCheck" checked>
+            Consume Items on Win
+        </label>
+
         <h3>Big Symbol Values</h3>
         <div id="bigSymbolValuesContainer">
             <div class="config-item">
-                <label for="bigValueMoon2">Crowned Moon:</label>
+                <label for="bigTopSymbol">Top Symbol:</label>
                 <div>
-                    has <input type="number" id="bigWinPercentageMoon2" value="1" min="0" step="1">
+                    has <input type="number" id="bigTopSymbolCount" value="1" min="0" step="1">
                     <span># Items valued as</span>
                 </div>
-                <input type="text" id="bigValueMoon2"><span> SC </span>
+                <input type="text" id="bigTopSymbol"><span> SC </span>
             </div>
             <div class="config-item">
-                <label for="bigValueCrown">Crown:</label>
+                <label for="bigPremiumGold">Premium Gold:</label>
                 <div>
-                    has <input type="number" id="bigWinPercentageCrown" value="1" min="0" step="1">
+                    has <input type="number" id="bigPremiumGoldCount" value="1" min="0" step="1">
                     <span># Items valued as</span>
                 </div>
-                <input type="text" id="bigValueCrown"><span> SC </span>
+                <input type="text" id="bigPremiumGold"><span> SC </span>
             </div>
             <div class="config-item">
-                <label for="bigValueBlueGem">Blue Gem:</label>
+                <label for="bigPremiumSilver">Premium Silver:</label>
                 <div>
-                    has <input type="number" id="bigWinPercentageBlueGem" value="1" min="0" step="1">
+                    has <input type="number" id="bigPremiumSilverCount" value="1" min="0" step="1">
                     <span># Items valued as</span>
                 </div>
-                <input type="text" id="bigValueBlueGem"><span> SC </span>
+                <input type="text" id="bigPremiumSilver"><span> SC </span>
             </div>
             <div class="config-item">
-                <label for="bigValueShootingStar">Shooting Star:</label>
+                <label for="bigPremiumCopper">Premium Copper:</label>
                 <div>
-                    has <input type="number" id="bigWinPercentageShootingStar" value="1" min="0" step="1">
+                    has <input type="number" id="bigPremiumCopperCount" value="1" min="0" step="1">
                     <span># Items valued as</span>
                 </div>
-                <input type="text" id="bigValueShootingStar"><span> SC </span>
+                <input type="text" id="bigPremiumCopper"><span> SC </span>
             </div>
             <div class="config-item">
-                <label for="bigValueMoon">Moon:</label>
+                <label for="bigGold">Gold:</label>
                 <div>
-                    has <input type="number" id="bigWinPercentageMoon" value="1" min="0" step="1">
+                    has <input type="number" id="bigGoldCount" value="1" min="0" step="1">
                     <span># Items valued as</span>
                 </div>
-                <input type="text" id="bigValueMoon"><span> SC </span>
+                <input type="text" id="bigGold"><span> SC </span>
             </div>
             <div class="config-item">
-                <label for="bigValuePinkGem">Pink Gem:</label>
+                <label for="bigSilver">Silver:</label>
                 <div>
-                    has <input type="number" id="bigWinPercentagePinkGem" value="1" min="0" step="1">
+                    has <input type="number" id="bigSilverCount" value="1" min="0" step="1">
                     <span># Items valued as</span>
                 </div>
-                <input type="text" id="bigValuePinkGem"><span> SC </span>
+                <input type="text" id="bigSilver"><span> SC </span>
             </div>
             <div class="config-item">
-                <label for="bigValueStar">Star:</label>
+                <label for="bigCopper">Copper:</label>
                 <div>
-                    has <input type="number" id="bigWinPercentageStar" value="1" min="0" step="1">
+                    has <input type="number" id="bigCopperCount" value="1" min="0" step="1">
                     <span># Items valued as</span>
                 </div>
-                <input type="text" id="bigValueStar"><span> SC </span>
+                <input type="text" id="bigCopper"><span> SC </span>
             </div>
             <div class="config-item">
-                <label for="bigValueRob">Lucky Loot Box:</label>
+                <label for="bigBonus">Bonus:</label>
                 <div>
-                    has <input type="number" id="bigWinPercentageRob" value="0" min="0" step="1">
+                    has <input type="number" id="bigBonusCount" value="0" min="0" step="1">
                     <span># Items valued as</span>
                 </div>
-                <input type="text" id="bigValueRob"><span> SC </span>
+                <input type="text" id="bigBonus"><span> SC </span>
             </div>
         </div>
 
         <h3>Small Symbol Values</h3>
         <div id="smallSymbolValuesContainer">
             <div class="config-item">
-                <label for="smallValueMoon2">Crowned Moon:</label>
+                <label for="smallTopSymbol">Top Symbol:</label>
                 <div>
-                    has <input type="number" id="smallWinPercentageMoon2" value="1" min="0" step="1">
+                    has <input type="number" id="smallTopSymbolCount" value="1" min="0" step="1">
                     <span># Items valued as</span>
                 </div>
-                <input type="text" id="smallValueMoon2"><span> SC </span>
+                <input type="text" id="smallTopSymbol"><span> SC </span>
             </div>
             <div class="config-item">
-                <label for="smallValueCrown">Crown:</label>
+                <label for="smallPremiumGold">Premium Gold:</label>
                 <div>
-                    has <input type="number" id="smallWinPercentageCrown" value="1" min="0" step="1">
+                    has <input type="number" id="smallPremiumGoldCount" value="1" min="0" step="1">
                     <span># Items valued as</span>
                 </div>
-                <input type="text" id="smallValueCrown"><span> SC </span>
+                <input type="text" id="smallPremiumGold"><span> SC </span>
             </div>
             <div class="config-item">
-                <label for="smallValueBlueGem">Blue Gem:</label>
+                <label for="smallPremiumSilver">Premium Silver:</label>
                 <div>
-                    has <input type="number" id="smallWinPercentageBlueGem" value="1" min="0" step="1">
+                    has <input type="number" id="smallPremiumSilverCount" value="1" min="0" step="1">
                     <span># Items valued as</span>
                 </div>
-                <input type="text" id="smallValueBlueGem"><span> SC </span>
+                <input type="text" id="smallPremiumSilver"><span> SC </span>
             </div>
             <div class="config-item">
-                <label for="smallValueShootingStar">Shooting Star:</label>
+                <label for="smallPremiumCopper">Premium Copper::</label>
                 <div>
-                    has <input type="number" id="smallWinPercentageShootingStar" value="1" min="0" step="1">
+                    has <input type="number" id="smallPremiumCopperCount" value="1" min="0" step="1">
                     <span># Items valued as</span>
                 </div>
-                <input type="text" id="smallValueShootingStar"><span> SC </span>
+                <input type="text" id="smallPremiumCopper"><span> SC </span>
             </div>
             <div class="config-item">
-                <label for="smallValueMoon">Moon:</label>
+                <label for="smallGold">Gold:</label>
                 <div>
-                    has <input type="number" id="smallWinPercentageMoon" value="1" min="0" step="1">
+                    has <input type="number" id="smallGoldCount" value="1" min="0" step="1">
                     <span># Items valued as</span>
                 </div>
-                <input type="text" id="smallValueMoon"><span> SC </span>
+                <input type="text" id="smallGold"><span> SC </span>
             </div>
             <div class="config-item">
-                <label for="smallValuePinkGem">Pink Gem:</label>
+                <label for="smallSilver">Silver:</label>
                 <div>
-                    has <input type="number" id="smallWinPercentagePinkGem" value="1" min="0" step="1">
+                    has <input type="number" id="smallSilverCount" value="1" min="0" step="1">
                     <span># Items valued as</span>
                 </div>
-                <input type="text" id="smallValuePinkGem"><span> SC </span>
+                <input type="text" id="smallSilver"><span> SC </span>
             </div>
             <div class="config-item">
-                <label for="smallValueStar">Star:</label>
+                <label for="smallCopper">Copper:</label>
                 <div>
-                    has <input type="number" id="smallWinPercentageStar" value="1" min="0" step="1">
+                    has <input type="number" id="smallCopperCount" value="1" min="0" step="1">
                     <span># Items valued as</span>
                 </div>
-                <input type="text" id="smallValueStar"><span> SC </span>
+                <input type="text" id="smallCopper"><span> SC </span>
             </div>
             <div class="config-item">
-                <label for="smallValueRob">Lucky Loot Box:</label>
+                <label for="smallValueBonus">Bonus:</label>
                 <div>
-                    has <input type="number" id="smallWinPercentageRob" value="0" min="0" step="1">
+                    has <input type="number" id="smallBonusCount" value="0" min="0" step="1">
                     <span># Items valued as</span>
                 </div>
-                <input type="text" id="smallValueRob"><span> SC </span>
+                <input type="text" id="smallValueBonus"><span> SC </span>
             </div>
         </div>
 

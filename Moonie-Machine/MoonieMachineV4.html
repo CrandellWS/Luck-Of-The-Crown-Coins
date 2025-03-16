@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slot Game</title>
+    <script src="js/javascript-v4.js?v14"></script>
+    <link rel="stylesheet" href="css/style-v4.css?v14" type="text/css">
+    <link rel="icon" type="image/png" href="./img/chest-closed.png">
+</head>
+<body>
+<div class="game-container">
+    <div class="button-reel">
+        <button id="bigMoonieButton">Big Moonie <span>🌕</span></button>
+        <button id="smallMoonieButton">Small Moonie <span>🌙</span></button>
+    </div>
+    <div class="reel" id="reel1">
+        <div class="symbols"></div>
+        <div class="fade-overlay"></div>
+    </div>
+    <div class="reel" id="reel2">
+        <div class="symbols"></div>
+        <div class="fade-overlay"></div>
+    </div>
+    <div class="reel" id="reel3">
+        <div class="symbols"></div>
+        <div class="fade-overlay"></div>
+    </div>
+
+    <div class="symbol-values-container" id="symbolValuesContainerRight"></div>
+    <button id="spinButton">Spin</button>
+</div>
+
+<button onclick="openGameModal()" style="position:fixed">Trigger Bonus</button>
+<div id="gameModal" class="luck-crowns-modal">
+    <video autoplay muted loop>
+        <source src="pirate-video.mp4" type="video/mp4">
+    </video>
+    <div class="luck-crowns-modal-content">
+        <h1 id="bonus-title" >Lucky Loot Box Bonus</h1>
+        <div class="luck-crowns-box-container" id="box-container"></div>
+        <h1 id="totalScore">Total: 0 SC</h1>
+        <button class="luck-crowns-closeButton" onclick="closeGameModal()">Close</button>
+    </div>
+</div>
+
+<div id="spinConfigModal" class="modal">
+    <div class="modal-content">
+        <h2>Win Configuration</h2>
+
+        <label for="showSymbolValuesCheck">
+            <input type="checkbox" id="showSymbolValuesCheck" checked>
+            Show Symbol Values
+        </label>
+
+        <label for="consumeItemsCheck">
+            <input type="checkbox" id="consumeItemsCheck" checked>
+            Consume Items on Win
+        </label>
+
+        <h3>Big Symbol Values</h3>
+        <div id="bigSymbolValuesContainer">
+            <div class="config-item">
+                <label for="bigTopSymbol">Top Symbol:</label>
+                <div>
+                    has <input type="number" id="bigTopSymbolCount" value="1" min="0" step="1">
+                    <span># Items valued as</span>
+                </div>
+                <input type="text" id="bigTopSymbol"><span> SC </span>
+            </div>
+            <div class="config-item">
+                <label for="bigPremiumGold">Premium Gold:</label>
+                <div>
+                    has <input type="number" id="bigPremiumGoldCount" value="1" min="0" step="1">
+                    <span># Items valued as</span>
+                </div>
+                <input type="text" id="bigPremiumGold"><span> SC </span>
+            </div>
+            <div class="config-item">
+                <label for="bigPremiumSilver">Premium Silver:</label>
+                <div>
+                    has <input type="number" id="bigPremiumSilverCount" value="1" min="0" step="1">
+                    <span># Items valued as</span>
+                </div>
+                <input type="text" id="bigPremiumSilver"><span> SC </span>
+            </div>
+            <div class="config-item">
+                <label for="bigPremiumCopper">Premium Copper:</label>
+                <div>
+                    has <input type="number" id="bigPremiumCopperCount" value="1" min="0" step="1">
+                    <span># Items valued as</span>
+                </div>
+                <input type="text" id="bigPremiumCopper"><span> SC </span>
+            </div>
+            <div class="config-item">
+                <label for="bigGold">Gold:</label>
+                <div>
+                    has <input type="number" id="bigGoldCount" value="1" min="0" step="1">
+                    <span># Items valued as</span>
+                </div>
+                <input type="text" id="bigGold"><span> SC </span>
+            </div>
+            <div class="config-item">
+                <label for="bigSilver">Silver:</label>
+                <div>
+                    has <input type="number" id="bigSilverCount" value="1" min="0" step="1">
+                    <span># Items valued as</span>
+                </div>
+                <input type="text" id="bigSilver"><span> SC </span>
+            </div>
+            <div class="config-item">
+                <label for="bigCopper">Copper:</label>
+                <div>
+                    has <input type="number" id="bigCopperCount" value="1" min="0" step="1">
+                    <span># Items valued as</span>
+                </div>
+                <input type="text" id="bigCopper"><span> SC </span>
+            </div>
+            <div class="config-item">
+                <label for="bigBonus">Bonus:</label>
+                <div>
+                    has <input type="number" id="bigBonusCount" value="0" min="0" step="1">
+                    <span># Items valued as</span>
+                </div>
+                <input type="text" id="bigBonus"><span> SC </span>
+            </div>
+        </div>
+
+        <h3>Small Symbol Values</h3>
+        <div id="smallSymbolValuesContainer">
+            <div class="config-item">
+                <label for="smallTopSymbol">Top Symbol:</label>
+                <div>
+                    has <input type="number" id="smallTopSymbolCount" value="1" min="0" step="1">
+                    <span># Items valued as</span>
+                </div>
+                <input type="text" id="smallTopSymbol"><span> SC </span>
+            </div>
+            <div class="config-item">
+                <label for="smallPremiumGold">Premium Gold:</label>
+                <div>
+                    has <input type="number" id="smallPremiumGoldCount" value="1" min="0" step="1">
+                    <span># Items valued as</span>
+                </div>
+                <input type="text" id="smallPremiumGold"><span> SC </span>
+            </div>
+            <div class="config-item">
+                <label for="smallPremiumSilver">Premium Silver:</label>
+                <div>
+                    has <input type="number" id="smallPremiumSilverCount" value="1" min="0" step="1">
+                    <span># Items valued as</span>
+                </div>
+                <input type="text" id="smallPremiumSilver"><span> SC </span>
+            </div>
+            <div class="config-item">
+                <label for="smallPremiumCopper">Premium Copper::</label>
+                <div>
+                    has <input type="number" id="smallPremiumCopperCount" value="1" min="0" step="1">
+                    <span># Items valued as</span>
+                </div>
+                <input type="text" id="smallPremiumCopper"><span> SC </span>
+            </div>
+            <div class="config-item">
+                <label for="smallGold">Gold:</label>
+                <div>
+                    has <input type="number" id="smallGoldCount" value="1" min="0" step="1">
+                    <span># Items valued as</span>
+                </div>
+                <input type="text" id="smallGold"><span> SC </span>
+            </div>
+            <div class="config-item">
+                <label for="smallSilver">Silver:</label>
+                <div>
+                    has <input type="number" id="smallSilverCount" value="1" min="0" step="1">
+                    <span># Items valued as</span>
+                </div>
+                <input type="text" id="smallSilver"><span> SC </span>
+            </div>
+            <div class="config-item">
+                <label for="smallCopper">Copper:</label>
+                <div>
+                    has <input type="number" id="smallCopperCount" value="1" min="0" step="1">
+                    <span># Items valued as</span>
+                </div>
+                <input type="text" id="smallCopper"><span> SC </span>
+            </div>
+            <div class="config-item">
+                <label for="smallValueBonus">Bonus:</label>
+                <div>
+                    has <input type="number" id="smallBonusCount" value="0" min="0" step="1">
+                    <span># Items valued as</span>
+                </div>
+                <input type="text" id="smallValueBonus"><span> SC </span>
+            </div>
+        </div>
+
+
+        <button id="closeModal">Save</button>
+    </div>
+</div>
+
+<div id="bonusConfigModal" class="modal">
+    <div class="modal-content">
+        <h2>Bonus Configuration</h2>
+        <div class="config-item">
+            <label for="losingPicks"># of Losing Picks:</label>
+            <input type="number" id="losingPicks" value="0" min="0" step="1" max="20">
+        </div>
+
+        <h3>Prize Values</h3>
+        <div id="prizesContainer">
+            <!-- Dynamically generated inputs will go here -->
+        </div>
+
+        <button id="saveBonusConfig">Save</button>
+    </div>
+</div>
+
+<div id="openSpinConfigModal">
+    <p>Spin Config</p>
+</div>
+
+<div id="openBonusConfigModal">
+    <p>Bonus Config</p>
+</div>
+
+<script>
+</script>
+</body>
+</html>

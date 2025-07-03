@@ -207,7 +207,7 @@ label {
 
 #reel1 {
     top: calc(300 / 1080 * 100%);
-    left: calc(627 / 1920 * 100%);
+    left: calc(596 / 1920 * 100%);
     width: calc(209 / 1920 * 100%);
     height: calc((1001 - 485) / 1080 * 100%);
 }
@@ -221,7 +221,7 @@ label {
 
 #reel3 {
     top: calc(300 / 1080 * 100%);
-    left: calc(1094 / 1920 * 100%);
+    left: calc(1124 / 1920 * 100%);
     width: calc(209 / 1920 * 100%);
     height: calc((1001 - 485) / 1080 * 100%);
 }

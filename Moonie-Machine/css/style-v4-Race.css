@@ -206,22 +206,22 @@ label {
 }
 
 #reel1 {
-    top: calc(300 / 1080 * 100%);
-    left: calc(596 / 1920 * 100%);
+    top: calc(270 / 1080 * 100%);
+    left: calc(595 / 1920 * 100%);
     width: calc(209 / 1920 * 100%);
     height: calc((1001 - 485) / 1080 * 100%);
 }
 
 #reel2 {
-    top: calc(300 / 1080 * 100%);
-    left: calc(858 / 1920 * 100%);
+    top: calc(270 / 1080 * 100%);
+    left: calc(915 / 1920 * 100%);
     width: calc(209 / 1920 * 100%);
     height: calc((1001 - 485) / 1080 * 100%);
 }
 
 #reel3 {
-    top: calc(300 / 1080 * 100%);
-    left: calc(1124 / 1920 * 100%);
+    top: calc(270 / 1080 * 100%);
+    left: calc(1247 / 1920 * 100%);
     width: calc(209 / 1920 * 100%);
     height: calc((1001 - 485) / 1080 * 100%);
 }

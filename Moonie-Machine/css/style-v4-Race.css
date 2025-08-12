@@ -171,7 +171,7 @@ label {
     transform: translate(-50%, -50%);
     width: calc(100vh * (16 / 9));
     height: 100vh;
-    background: url('../img/Race/background.png') no-repeat center center;
+    background: url('../img/Race/background.jpg') no-repeat center center;
     background-size: cover;
 }
 

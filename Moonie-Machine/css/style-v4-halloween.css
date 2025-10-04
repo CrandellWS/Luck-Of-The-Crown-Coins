@@ -511,8 +511,8 @@ button.active {
 
 #spinButton {
     position: absolute;
-    bottom: 13.5%;
-    left: 63%;
+    bottom: 7.5%;
+    left: 65%;
     transform: translateX(-50%); /* Center horizontally */
     padding: 10px 20px;
     background: #fff;

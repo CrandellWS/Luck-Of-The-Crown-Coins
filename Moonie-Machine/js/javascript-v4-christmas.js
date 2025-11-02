@@ -259,6 +259,20 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.log(`Updated chances: ${winningSymbol} -> Big: ${symbolWinChanceBig[winningSymbol]}, Small: ${symbolWinChanceSmall[winningSymbol]}`);
                 }
 
+
+                // Cache middle symbols globally (so you can trigger animations later)
+                const middleSymbols = [];
+                // Spin all reels
+                ["reel1", "reel2", "reel3"].forEach((id, index) => {
+                    const reel = document.getElementById(id);
+                    const symbolsContainer = reel.querySelector('.symbols');
+                    const middleSymbol = symbolsContainer.children[1]; // Middle
+                    middleSymbols.push(middleSymbol);
+                });
+
+                middleSymbols.forEach(symbol => symbol.classList.add('animate'));
+
+
                 // --- Create the overlay (sprite-based) ---
                 const overlay = document.createElement('div');
                 overlay.className = 'winning-symbol-overlay';
@@ -292,11 +306,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Remove overlay after 4 seconds
                 setTimeout(() => {
-                    // document.body.removeChild(overlay);
+                    document.body.removeChild(overlay);
 
                     // 🔹 Stop all ongoing symbol animations (cleanup)
                     document.querySelectorAll('.symbol').forEach(sym => {
-                        // sym.classList.remove('animate');
+                        sym.classList.remove('animate');
                     });
                     // Check if the winning symbol is "Bonus" and open the game modal
                     if (winningSymbol === bonusImg) {
@@ -486,9 +500,6 @@ function spinReel(reel, duration, winningSymbol) {
         if (middleSymbol) {
             console.log(middleSymbol);
             middleSymbol.style.backgroundImage = `url(${winningSymbol})`;
-            setTimeout(() => {
-                middleSymbol.classList.add('animate');
-            }, duration * 900);
         }
     }
 
